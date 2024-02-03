@@ -1,0 +1,63 @@
+/* Component - Badge & Label Setting */
+
+.badge {
+	font-size: 75%;
+	line-height: 1.25;
+	font-weight: 600;
+	display: inline-block;
+	min-width: 10px;
+	padding: 3px 7px;
+	color: #fff;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	background-color: #777;
+	border-radius: 10px;
+}
+.label {
+	display: inline;
+	padding: .2em .6em .3em;
+	font-size: 75%;
+	font-weight: 600;
+	line-height: 1;
+	color: #fff;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: baseline;
+	border-radius: .25em;
+}
+.badge.badge-square { 
+	border-radius: 0; 
+}
+.badge.badge-default, 
+.label.label-default { background: rgba(255, 255, 255, 0.25); color: #fff; }
+.badge.badge-danger, 
+.label.label-danger { background: #ff3502; }
+.badge.badge-warning, 
+.label.label-warning { background: #FF7C00; }
+.badge.badge-success, 
+.label.label-success { background: #04c142; }
+.badge.badge-info, 
+.label.label-info { background: #00cbff; }
+.badge.badge-primary, 
+.label.label-primary { background: #006cff; }
+.badge.badge-secondary,
+.label.label-secondary { background: #999; }
+.badge.badge-lime,
+.label.label-lime { background: #c2e900; color: #202700 }
+.badge.badge-yellow,
+.label.label-yellow { background: #ffd900; color: #000; }
+.badge.badge-purple,
+.label.label-purple { background: #9800ff; }
+.badge.badge-light,
+.label.label-light { background: #fff; color: #333; }
+.badge.badge-inverse, 
+.label.label-inverse,
+.badge.badge-dark, 
+.label.label-dark { background: rgba(0,0,0,0.25); color: #fff; }
+.badge.badge-pink, 
+.label.label-pink { background: #ff0081; }
+.badge.badge-indigo, 
+.label.label-indigo { background: #5600ff; }
+.badge.badge-teal, 
+.label.label-teal { background: #01caca; }

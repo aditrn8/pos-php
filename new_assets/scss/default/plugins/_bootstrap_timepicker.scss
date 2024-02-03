@@ -1,0 +1,72 @@
+/* Plugin - Bootstrap Timepicker */
+
+.bootstrap-timepicker.input-group {
+	display: table;
+	width: 100%;
+}
+.bootstrap-timepicker.input-group > .form-control {
+	display: table-cell;
+	width: 100%;
+}
+.bootstrap-timepicker.input-group .input-group-addon {
+	display: table-cell;
+	width: 20px;
+}
+.bootstrap-timepicker-widget.dropdown-menu {
+	padding: 5px !important;
+}
+.bootstrap-timepicker-widget.dropdown-menu.open {
+	border: none !important;
+	max-width: 240px;
+}
+.bootstrap-timepicker-widget.dropdown-menu:before {
+	display: none !important;
+}
+.bootstrap-timepicker .bootstrap-timepicker-widget.dropdown-menu + .form-control {
+	border-radius: 4px 0 0 4px;
+}
+.bootstrap-timepicker-widget .form-control,
+.bootstrap-timepicker-widget input {
+	width: 40px !important;
+	border: 1px solid #d3d8de;
+	box-shadow: none;
+	font-size: 12px;
+	line-height: 1.42857143;
+	height: 34px;
+	padding: 0;
+	display: block;
+	background-color: #fff;
+	background-clip: padding-box;
+	border-radius: .25rem;
+	transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+	color: #495057;
+}
+.bootstrap-timepicker-widget .form-control:focus,
+.bootstrap-timepicker-widget input:focus {
+	border-color: #5db0ff;
+	outline: 0;
+	box-shadow: 0 0 0 0.125rem rgba(52, 142, 227, 0.3);
+}
+.bootstrap-timepicker-widget table td {
+	padding: 5px !important;
+}
+.bootstrap-timepicker-widget table td a {
+	padding: 5px 0 !important;
+	margin: -5px 0 !important;
+	border-radius: 4px !important;
+}
+.bootstrap-timepicker-widget table td a:hover,
+.bootstrap-timepicker-widget table td a:focus {
+	background: $blue !important;
+	border: none !important;
+	color: #fff;
+}
+.bootstrap-timepicker-widget table td input {
+	border-radius: 4px !important;
+}
+.bootstrap-timepicker-widget .glyphicon.glyphicon-chevron-up:before {
+	content: '\f077';
+}
+.bootstrap-timepicker-widget .glyphicon.glyphicon-chevron-down:before {
+	content: '\f078';
+}

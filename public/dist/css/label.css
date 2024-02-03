@@ -1,0 +1,77 @@
+.label,
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 300x;
+  line-height: 14px;
+  margin-right: 3px;
+  color: #ffffff;
+  white-space: nowrap;
+  vertical-align: baseline;
+  background-color: #585858;
+}
+
+.label:empty,
+.badge:empty {
+  display: none;
+}
+
+a.label:hover,
+a.label:focus,
+a.badge:hover,
+a.badge:focus {
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.label-important,
+.badge-important {
+  background-color: #ac193d;
+}
+
+.label-important[href],
+.badge-important[href] {
+  background-color: #ac193d;
+}
+
+.label-warning,
+.badge-warning {
+  background-color: #ff8f32;
+}
+
+.label-warning[href],
+.badge-warning[href] {
+  background-color: #ff8f32;
+}
+
+.label-success,
+.badge-success {
+  background-color: #82ba00;
+}
+
+.label-success[href],
+.badge-success[href] {
+  background-color: #82ba00;
+}
+
+.label-info,
+.badge-info {
+  background-color: #0072c6;
+}
+
+.label-info[href],
+.badge-info[href] {
+  background-color: #0072c6;
+}
+
+.label-inverse,
+.badge-inverse {
+  background-color: #1f1f1f;
+}
+
+.label-inverse[href],
+.badge-inverse[href] {
+  background-color: #1f1f1f;
+}

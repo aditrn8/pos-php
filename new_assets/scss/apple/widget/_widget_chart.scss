@@ -1,0 +1,38 @@
+/* Widget - Widget Chart */
+
+.widget-chart-info {
+	color: $black;
+}
+.widget-chart-info-title {
+	margin: 0 0 5px;
+	font-size: 14px;
+}
+.widget-chart-info-desc {
+	font-size: 11px;
+	color: #777;
+	margin-bottom: 20px;
+}
+.widget-chart-info-progress {
+	font-size: 10px;
+	margin-bottom: 5px;
+}
+.widget-chart-info .progress {
+	margin-bottom: 0;
+}
+.widget-chart-content {
+	background: $silver;
+	padding: 10px;
+}
+.inverse-mode .widget-chart-content {
+	background: $black;
+}
+.inverse-mode .widget-chart-info {
+	color: #aaa;
+}
+.inverse-mode .nvd3 text {
+	fill: rgba(255,255,255,0.75);
+}
+.inverse-mode .nvd3 .nv-axis line,
+.inverse-mode .nvd3 .nv-axis path {
+	stroke: rgba(255,255,255,0.15);
+}

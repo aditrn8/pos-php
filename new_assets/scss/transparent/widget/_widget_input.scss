@@ -1,0 +1,78 @@
+/* Widget - Widget Input */
+
+div + .widget-input {
+	border-top: 1px solid rgba(255,255,255,0.25);
+}
+div + .widget-input.widget-input-rounded {
+	border-radius: 0 0 4px 4px;
+}
+.widget-input.widget-input-rounded {
+	border-radius: 4px;
+}
+.widget-input {
+	position: relative;
+	background: rgba(255,255,255,0.25);
+}
+[class*="widget-"] .widget-input {
+	background: none;
+}
+.widget-input-container {
+	display: table;
+	width: 100%;
+}
+.widget-input-icon,
+.widget-input-box,
+.widget-input-divider {
+	display: table-cell;
+	vertical-align: middle;
+}
+.widget-input-divider {
+	width: 1px;
+}
+.widget-input-divider:after {
+	content: '';
+	width: 1px;
+	height: 26px;
+	background: rgba(255,255,255,0.25);
+	display: block;
+}
+.widget-input-icon {
+	width: 1%;
+	padding: 0 5px;
+}
+.widget-input-icon a {
+	display: block;
+	padding: 10px 10px;
+	font-size: 18px;
+}
+.widget-input-box {
+	padding: 10px 0;
+}
+.widget-input-box .form-control {
+	border-color: transparent;
+	background: rgba(255,255,255,0.25);
+	border-radius: 40px;
+}
+.widget-input-box .form-control:focus {
+	box-shadow: none;
+}
+.inverse-mode .widget-input,
+.inverse-mode.widget-input {
+	background: #222;
+}
+.inverse-mode div + .widget-input,
+div + .widget-input.inverse-mode  {
+	border-color: #222;
+}
+.inverse-mode .widget-input-box .form-control {
+	border-color: #555;
+	background: #555;
+	color: #fff;
+}
+.inverse-mode .widget-input-box .form-control::-webkit-input-placeholder { color: #a8acb1; }
+.inverse-mode .widget-input-box .form-control::-moz-placeholder { color: #a8acb1; }
+.inverse-mode .widget-input-box .form-control:-ms-input-placeholder { color: #a8acb1; }
+.inverse-mode .widget-input-box .form-control:-moz-placeholder {  color: #a8acb1; }
+.inverse-mode .widget-input-divider:after {
+	background: #555;
+}

@@ -1,0 +1,68 @@
+/* Theme - Yellow */
+
+.header .navbar-logo,
+.login .login-header .brand .logo,
+.header .navbar-nav > li > a .label,
+.label.label-theme,
+.btn.btn-scroll-to-top {
+	color: #000;
+	background: $yellow;
+}
+.header.navbar-inverse .navbar-brand {
+	color: #fff !important;
+}
+.text-theme,
+.sidebar .nav > li.active > a i {
+	color: $yellow;
+}
+.sidebar .sub-menu > li.active:after {
+	border-color: $yellow;
+}
+.gradient-enabled .sidebar .nav > li.active > a, 
+.gradient-enabled .sidebar .nav > li.active > a:focus, 
+.gradient-enabled .sidebar .nav > li.active > a:hover,
+.gradient-enabled.page-sidebar-minified .sidebar .nav > li.has-sub.active:focus > a, 
+.gradient-enabled.page-sidebar-minified .sidebar .nav > li.has-sub.active:hover > a, 
+.gradient-enabled.page-sidebar-minified .sidebar .nav > li.has-sub.active > a,
+.gradient-enabled .label.label-theme,
+.gradient-enabled .btn.btn-scroll-to-top,
+.gradient-enabled .top-menu .nav > li.active > a, 
+.gradient-enabled .top-menu .nav > li.active > a:focus, 
+.gradient-enabled .top-menu .nav > li.active > a:hover {
+	color: #000;
+	background: rgb(255,225,51);
+	background: -moz-linear-gradient(top, rgba(255,225,51,1) 0%, rgba(255,217,0,1) 100%);
+	background: -webkit-linear-gradient(top, rgba(255,225,51,1) 0%,rgba(255,217,0,1) 100%);
+	background: linear-gradient(to bottom, rgba(255,225,51,1) 0%,rgba(255,217,0,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffe133', endColorstr='$yellow',GradientType=0 );
+}
+.gradient-enabled .sidebar .nav > li.active > a {
+	z-index: 10;
+}
+.gradient-enabled .sidebar .nav > li.active > a .label.label-theme, 
+.gradient-enabled .sidebar .nav > li.active > a .badge {
+	color: #fff;
+}
+.gradient-enabled .sidebar .nav > li.active > a i,
+.gradient-enabled .sidebar .nav > li.active > a .caret {
+	color: rgba(0,0,0,0.5);
+}
+.pace-progress {
+	background: $yellow;
+}
+.pace .pace-activity {
+	border-top-color: $yellow;
+	border-left-color: $yellow;
+}
+.page-with-light-sidebar .sidebar .nav > li.active > a > i {
+	color: $yellow;
+}
+.page-with-light-sidebar .sidebar .nav > li.active > a .badge,
+.page-with-light-sidebar .sidebar .nav > li.active > a .label.label-theme {
+	background: $yellow;
+}
+.top-menu .nav > li.active > a i, 
+.top-menu .nav > li.active > a:focus i, 
+.top-menu .nav > li.active > a:hover i {
+	color: $yellow;
+}

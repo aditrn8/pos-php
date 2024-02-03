@@ -1,0 +1,47 @@
+/* Widget - General Setting */
+
+.widget {
+	overflow: hidden;
+	margin-bottom: 20px;
+	background: #fff;
+	color: inherit;
+	padding: 0;
+	border-radius: 0;
+}
+.widget.widget-rounded {
+	border-radius: 4px;
+}
+.widget-header {
+	display: table;
+	width: 100%;
+}
+.widget-header-title,
+.widget-header-icon {
+	display: table-cell;
+	padding: 10px 15px;
+}
+.widget-header-title {
+	font-size: 12px;
+	margin: 0;
+	line-height: 20px;
+	width: 100%;
+}
+.widget-header-icon {
+	width: 1%;
+}
+.widget-header-icon + .widget-header-icon {
+	padding-left: 0;
+}
+.widget-body {
+	padding: 15px;
+}
+.widget.inverse-mode {
+	background: @black;
+}
+.widget.inverse-mode .vertical-box.with-border-top,
+.widget.inverse-mode .vertical-box.with-grid > .vertical-box-column + .vertical-box-column {
+	border-color: @black_lighter;
+}
+.widget.inverse-mode hr {
+	background: @black_lighter;
+}
