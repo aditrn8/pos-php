@@ -1,0 +1,212 @@
+/* Widget - Theme Panel */
+
+.theme-panel {
+	position: fixed;
+	right: -200px;
+	top: 150px;
+	z-index: 1020;
+	background: #fff;
+	padding: 15px;
+	width: 200px;
+	transition: right .2s linear;
+	border-radius: 4px 0 0 4px;
+}
+.theme-panel.active {
+	right: 0;
+	box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.3);
+}
+.theme-panel .theme-list {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+.theme-panel .theme-list + .theme-list {
+	margin-top: 10px;
+}
+.theme-panel .theme-list > li {
+	float: left;
+}
+.theme-panel .theme-list > li + li {
+	margin-left: 5px;
+}
+.theme-panel .theme-list > li > a {
+	width: 24px;
+	height: 24px;
+	border-radius: 20px;
+	display: block;
+	transition: all .2s linear;
+	text-decoration: none;
+}
+.theme-panel .theme-list > li > a:hover,
+.theme-panel .theme-list > li > a:focus {
+	opacity: 0.6;
+}
+.theme-panel .theme-list > li.active > a  {
+	position: relative;
+}
+.theme-panel .theme-list > li.active > a:before {
+	content: '\f3ff';
+	font-family: Ionicons !important;
+	font-weight: normal !important;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	font-size: 24px;
+	color: #fff;
+	line-height: 24px;
+	text-align: center;
+}
+.theme-panel .theme-list > li.active > a.bg-white:before {
+	color: #666;
+}
+.theme-panel .theme-collapse-btn {
+	position: absolute;
+	left: -36px;
+	top: 10%;
+	margin-top: -5px;
+	width: 36px;
+	height: 36px;
+	line-height: 36px;
+	font-size: 24px;
+	color: @black_lighter;
+	background: #fff;
+	border-radius: 4px 0 0 4px;
+	text-align: center;
+	box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.15);
+}
+.theme-panel .theme-panel-content {
+	margin: -15px;
+	padding: 15px;
+	background: #fff;
+	position: relative;
+	z-index: 1020;
+	border-radius: 5px 0 0 5px;
+}
+.theme-panel.active .theme-collapse-btn .fa:before {
+	content: '\f00d';
+}
+.theme-panel .theme-list a.bg-white {
+	border: 1px solid #e2e7eb;
+}
+.theme-panel .control-label {
+	line-height: 30px;
+}
+.theme-panel .control-label.double-line {
+	line-height: 15px;
+}
+.theme-panel .divider {
+	height: 1px;
+	margin: 15px 0;
+	background: #f2f2f2;
+}
+.theme-panel.theme-panel-lg {
+	top: 0;
+	bottom: 0;
+	width: 260px;
+	right: -260px;
+}
+.theme-panel.theme-panel-lg.active {
+	right: 0;
+}
+.theme-panel.theme-panel-lg .theme-panel-content {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	overflow: scroll;
+	margin: 0;
+	padding: 20px;
+}
+.theme-panel.theme-panel-lg .theme-collapse-btn {
+	top: 30%;
+}
+.theme-panel.theme-panel-lg .theme-version:before,
+.theme-panel.theme-panel-lg .theme-version:after {
+	content: '';
+	display: table;
+	clear: both;
+}
+.theme-panel.theme-panel-lg .theme-list {
+	margin-bottom: -3px;
+}
+.theme-panel.theme-panel-lg .theme-list > li > a {
+	width: 28px;
+	height: 28px;
+	border-radius: 28px;
+}
+.theme-panel.theme-panel-lg .theme-list > li.active > a:before {
+	line-height: 28px;
+}
+.theme-panel.theme-panel-lg .theme-list > li + li {
+	margin-left: 0;
+}
+.theme-panel.theme-panel-lg .theme-list > li {
+	margin-right: 3px;
+	margin-bottom: 3px;
+}
+.theme-panel .theme-version {
+	margin: 0 -14px 5px;
+}
+.theme-panel.theme-panel-lg .theme-version {
+	margin: 0 -20px 5px;
+}
+.theme-panel .theme-version a {
+	float: left;
+	width: calc(50% - 2.5px);
+	padding-top: 35%;
+	position: relative;
+	text-decoration: none;
+}
+.theme-panel .theme-version a + a {
+	margin-left: 5px;
+}
+.theme-panel .theme-version a span {
+	font-size: 14px;
+	font-weight: bold;
+	margin: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	text-align: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: top left;
+}
+.theme-version a.active:before,
+.theme-version a:hover:before {
+	content: '';
+	position: absolute;
+	border: 15px solid transparent;
+	border-left-color: #999;
+	border-top-color: #999;
+	left: 0;
+	top: 0;
+	z-index: 10;
+}
+.theme-version a.active:before {
+	border-left-color: @blue;
+	border-top-color: @blue;
+}
+.theme-version a.active:after,
+.theme-version a:hover:after {
+	content: '\f00c';
+	font-family: Font Awesome\ 5 Free, Font Awesome\ 5 Pro, FontAwesome !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	font-weight: 900;
+	font-style: normal;
+	font-variant: normal;
+	text-rendering: auto;
+	color: #fff;
+	z-index: 10;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+}

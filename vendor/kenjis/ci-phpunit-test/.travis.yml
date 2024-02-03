@@ -1,0 +1,33 @@
+language: php
+
+php:
+  - 7.2
+  - 7.3
+  - 7.4.22
+
+env:
+  global:
+    - XDEBUG_MODE=coverage
+
+before_script:
+  - pwd
+  - export cwd=`pwd`
+  - composer self-update
+  - cd ..
+  - pwd
+  - git clone -b 2.x https://github.com/kenjis/ci-app-for-ci-phpunit-test.git
+  - cd ci-app-for-ci-phpunit-test
+  - rm application/tests/_ci_phpunit_test
+  - composer update
+  - mv vendor/kenjis/ci-phpunit-test vendor/kenjis/ci-phpunit-test.tmp
+  - mv "$cwd" vendor/kenjis/ci-phpunit-test
+  - php install.php
+  - git checkout -- application/tests/Bootstrap.php
+
+script:
+  - cd application/tests
+  - ../../vendor/bin/phpunit --coverage-text
+
+after_script:
+  - cd ../..
+  - if [[ "$TRAVIS_PHP_VERSION" == "7.2" ]]; then php vendor/bin/coveralls -v; fi

@@ -1,0 +1,70 @@
+/* Widget - Widget Table */
+
+.table.widget-table {
+	background: #fff;
+	border-radius: 4px;
+}
+.table.table-bordered.widget-table {
+	border: none;
+}
+.table.table-bordered.widget-table > thead:first-child > tr:first-child > td, 
+.table.table-bordered.widget-table > thead:first-child > tr:first-child > th {
+	border-top: none;
+} 
+.table.table-bordered.widget-table > thead > tr > th:first-child,
+.table.table-bordered.widget-table > tbody > tr > td:first-child {
+	border-left: none;
+}
+.table.table-bordered.widget-table > thead > tr > th:last-child,
+.table.table-bordered.widget-table > tbody > tr > td:last-child {
+	border-right: none;
+}
+.table.table-bordered.widget-table > tbody > tr:last-child > td {
+	border-bottom: none;
+} 
+.widget-table-img {
+	width: 100px;
+	height: 60px;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	border-radius: 4px;
+}
+.widget-table-title {
+	font-size: 14px;
+	margin: 0;
+	line-height: 20px;
+}
+.widget-table-desc {
+	margin: 0;
+	font-size: 11px;
+	line-height: 15px;
+	font-weight: 600;
+}
+.inverse-mode .table.widget-table,
+.inverse-mode.table.widget-table {
+	background: $black;
+	color: #a8acb1;
+}
+.inverse-mode .table thead th, 
+.inverse-mode .table > thead > tr > th,
+.inverse-mode.table thead th, 
+.inverse-mode.table > thead > tr > th  {
+	color: #fff;
+}
+.inverse-mode h1,
+.inverse-mode h2,
+.inverse-mode h3,
+.inverse-mode h4,
+.inverse-mode h5,
+.inverse-mode h6 {
+	color: #fff;
+}
+.inverse-mode.table.widget-table > thead > tr > th, 
+.inverse-mode.table.widget-table > tbody > tr > th, 
+.inverse-mode.table.widget-table > tfoot > tr > th, 
+.inverse-mode.table.widget-table > thead > tr > td, 
+.inverse-mode.table.widget-table > tbody > tr > td, 
+.inverse-mode.table.widget-table > tfoot > tr > td {
+	border-color: $black_lighter !important;
+}

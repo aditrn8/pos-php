@@ -1,0 +1,29 @@
+.display-none {
+  display: none;
+}
+
+.custom-datepicker .datepicker-days table {
+  border-collapse: separate; 
+  border-spacing: 0.25rem;
+}
+
+.custom-datepicker .weekend {
+  color: white !important;
+  background: #abacae !important;
+}
+
+.custom-datepicker .old.weekend,
+.custom-datepicker .new.weekend {
+  color: black !important;
+  background: #f2f2f2 !important;
+}
+
+.custom-datepicker .holiday {
+  color: white !important;
+  background: #b51c16 !important;
+}
+
+.custom-datepicker .old.holiday,
+.custom-datepicker .new.holiday {
+  background: #ec5d59 !important;
+}

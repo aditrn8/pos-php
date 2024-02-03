@@ -1,0 +1,71 @@
+/* Widget - Widget Card */
+
+.widget-card,
+a.widget-card {
+	position: relative;
+	margin-bottom: 15px;
+	display: block;
+	text-decoration: none;
+}
+.widget-card.square {
+	padding-top: 100%;
+	overflow: hidden;
+}
+.widget-card .widget-card-content {
+	padding: 15px;
+	position: relative;
+}
+.widget-card .widget-card-cover,
+.widget-card.square .widget-card-content {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+.widget-card.widget-card-rounded .widget-card-content,
+.widget-card.widget-card-rounded .widget-card-cover {
+	border-radius: 4px;
+}
+.widget-card .widget-card-cover {
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-color: #fff;
+}
+.widget-card .widget-card-cover .widget-card-cover-icon {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 50%;
+	height: 50%;
+	margin: -25% 0 0 -25%;
+	border-radius: 50%;
+	background: rgba(255,255,255,0.75);
+	color: rgba(0,0,0,0.75);
+	text-align: center;
+}
+.widget-card .widget-card-cover .widget-card-cover-icon .fa {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -0.85vw;
+	margin-left: -1vw;
+	font-size: 2vw;
+	line-height: 2vw;
+	height: 2vw;
+	width: 2vw;
+}
+.widget-card.square .widget-card-content.bottom {
+	top: auto;
+}
+.inverse-mode .widget-card,
+.inverse-mode.widget-card,
+.inverse-mode a.widget-card,
+a.inverse-mode.widget-card {
+	color: #fff;
+}
+.inverse-mode .widget-card .widget-card-cover,
+.inverse-mode.widget-card .widget-card-cover {
+	background-color: @black;
+}
