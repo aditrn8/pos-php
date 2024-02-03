@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Produk_model extends CI_Model
+class User_model extends CI_Model
 {
 
     function __construct()
@@ -42,13 +42,13 @@ class Produk_model extends CI_Model
 
 
 
-    public function queryProdukDtTb()
+    public function queryUserDtTb()
     {
-        $column_order = array(null, 'product_name', 'price', 'stock');
-        $column_search = array('product_name', 'price', 'stock');
-        $order = array('id' => 'DESC');
+        $column_order = array(null, 'a.name', 'a.username', 'b.role_description', 'a.phone');
+        $column_search = array('a.name', 'a.username', 'b.role_description', 'a.phone');
+        $order = array('a.id' => 'DESC');
 
-        $this->db->select('*')->from('product')->where('is_deleted', 0);
+        $this->db->select('a.*,b.role_description')->from('users a')->join('master_role b', 'b.role_id = a.role')->where('a.status', 'ACTIVE')->where('a.role !=', 1);
 
         $i = 0;
 
@@ -78,18 +78,18 @@ class Produk_model extends CI_Model
         }
     }
 
-    function dataProduk()
+    function dataUser()
     {
-        $this->queryProdukDtTb();
+        $this->queryUserDtTb();
         if ($_POST['length'] != -1)
             $this->db->limit($_POST['length'], $_POST['start']);
         $query = $this->db->get();
         return $query->result();
     }
 
-    function countDataProduk()
+    function countDataUser()
     {
-        $this->queryProdukDtTb();
+        $this->queryUserDtTb();
         $query = $this->db->get();
         return $query->num_rows();
     }

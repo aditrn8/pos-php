@@ -7,215 +7,151 @@ class User extends MY_Controller
         parent::__construct();
         $this->load->helper(array('form', 'url', 'html', 'file'));
         $this->load->library(array('template', 'form_validation', 'unit_test'));
-        $this->load->model('master/User_model', 'pm');
+        $this->load->model('master/User_model', 'um');
         date_default_timezone_set('Asia/Jakarta');
 
         $this->name     = $this->session->userdata('name');
+        $this->userId   = $this->session->userdata('user_id');
         $this->dateNow  = date('Y-m-d H:i:s');
     }
 
     public function index()
     {
         $data = [
-            'title' => 'Master Produk'
+            'title' => 'Master User'
         ];
-        $this->template->load('template', 'master/produk/index', $data);
+        $this->template->load('template', 'master/user/index', $data);
     }
 
-    public function tambahProduk()
+    public function tambahUser()
     {
-        $this->validationProduk();
+        $this->validationUser();
         if ($this->form_validation->run() == FALSE) {
             $data = [
-                'title' => 'Menu Tambah Produk'
+                'title'         => 'Menu Tambah User',
+                'masterRole'    => $this->um->getData('master_role', 'role_id != 1')
             ];
 
-            $this->template->load('template', 'master/produk/add', $data);
+            $this->template->load('template', 'master/user/add', $data);
         } else {
             if ($this->duplicate_entry() == 0) {
-                $namaProduk     = trim(htmlspecialchars($this->input->post('product_name')));
-                $hargaProduk    = trim(htmlspecialchars($this->input->post('price')));
-                $stokProduk     = trim(htmlspecialchars($this->input->post('stock')));
+                $nama        = trim(htmlspecialchars($this->input->post('name')));
+                $username    = trim(htmlspecialchars($this->input->post('username')));
+                $password    = trim(htmlspecialchars($this->input->post('password')));
+                $phone       = trim(htmlspecialchars($this->input->post('phone')));
+                $role        = trim(htmlspecialchars($this->input->post('role')));
 
                 $dataInsert = [
-                    'product_name'      => $namaProduk,
-                    'price'             => $hargaProduk,
-                    'stock'             => $stokProduk,
-                    'created_by'        => $this->name
+                    'name'              => $nama,
+                    'username'          => $username,
+                    'password'          => $password,
+                    'phone'             => $phone,
+                    'role'              => $role,
+                    'created_by'        => $this->userId,
+                    'status'            => 'ACTIVE'
                 ];
 
-                $this->pm->insert('product', $dataInsert);
+                $this->um->insert('users', $dataInsert);
 
-                $this->session->set_flashdata('msg', 'Berhasil menambahkan produk!');
-                redirect('master/produk');
+                $this->session->set_flashdata('msg', 'Berhasil menambahkan user!');
+                redirect('master/user');
+                // echo "tidak ada";
             } else {
-                $this->session->set_flashdata('msg', 'Nama produk sudah terdaftar di sistem! Tidak boleh sama!');
-                redirect('master/produk/tambahProduk');
+                $this->session->set_flashdata('msg', 'Nama user sudah terdaftar di sistem! Tidak boleh sama!');
+                redirect('master/user/tambahUser');
+                // echo "ada";
             }
         }
     }
 
-    public function editProduk($id)
+    public function editUser($id)
     {
-        $this->validationProduk();
+        $this->validationUser();
         if ($this->form_validation->run() == FALSE) {
             $data = [
-                'title'        => 'Menu Edit Produk',
+                'title'        => 'Menu Edit User',
                 'id'           => $id,
-                'rowProduct'   => $this->pm->getData('product', ['id' => $id])->row()
+                'rowUser'      => $this->um->getData('users', ['id' => $id])->row(),
+                'masterRole'   => $this->um->getData('master_role', 'role_id != 1')
             ];
 
-            $this->template->load('template', 'master/produk/edit', $data);
+            $this->template->load('template', 'master/user/edit', $data);
         } else {
             if ($this->duplicate_entry() == 0) {
-                $namaProduk     = trim(htmlspecialchars($this->input->post('product_name')));
-                $hargaProduk    = trim(htmlspecialchars($this->input->post('price')));
-                $stokProduk     = trim(htmlspecialchars($this->input->post('stock')));
+                $nama        = trim(htmlspecialchars($this->input->post('name')));
+                $username    = trim(htmlspecialchars($this->input->post('username')));
+                $password    = trim(htmlspecialchars($this->input->post('password')));
+                $phone       = trim(htmlspecialchars($this->input->post('phone')));
+                $role        = trim(htmlspecialchars($this->input->post('role')));
 
                 $dataUpdate = [
-                    'product_name'      => $namaProduk,
-                    'price'             => $hargaProduk,
-                    'stock'             => $stokProduk,
-                    'updated_by'        => $this->name,
-                    'updated_at'        => $this->dateNow
+                    'name'              => $nama,
+                    'username'          => $username,
+                    'password'          => $password,
+                    'phone'             => $phone,
+                    'role'              => $role,
+                    'updated_by'        => $this->userId,
+                    'updated_at'        => $this->dateNow,
                 ];
 
-                $this->pm->update('product', $dataUpdate, ['id' => $id]);
 
-                $this->session->set_flashdata('msg', 'Berhasil update produk!');
-                redirect('master/produk');
+                $this->um->update('users', $dataUpdate, ['id' => $id]);
+
+                $this->session->set_flashdata('msg', 'Berhasil update user!');
+                redirect('master/user');
             } else {
-                $this->session->set_flashdata('msg', 'Nama produk sudah terdaftar di sistem! Tidak boleh sama!');
-                redirect('master/produk/editProduk/' . $id);
+                $this->session->set_flashdata('msg', 'Nama user sudah terdaftar di sistem! Tidak boleh sama!');
+                redirect('master/user/editUser/' . $id);
             }
         }
     }
 
-    public function hapusProduk($id)
+    public function hapusUser($id)
     {
         $dataUpdate = [
-            'is_deleted'    => 1,
-            'deleted_by'    => $this->name,
-            'deleted_at'    => $this->dateNow
+            'status'        => 'NON-ACTIVE',
+            'updated_by'    => $this->userId,
+            'updated_at'    => $this->dateNow
         ];
 
-        $this->pm->update('product', $dataUpdate, ['id' => $id]);
-        $this->session->set_flashdata('msg', 'Berhasil menghapus produk!');
-        redirect('master/produk');
+        $this->um->update('users', $dataUpdate, ['id' => $id]);
+        $this->session->set_flashdata('msg', 'Berhasil menghapus User!');
+        redirect('master/user');
     }
 
 
-    function getDataProduk()
+    function getDataUser()
     {
-        $list = $this->pm->dataProduk();
+        $list = $this->um->dataUser();
         $data = array();
         $no   = $_POST['start'];
         foreach ($list as $field) {
             $no++;
             $row = array();
             $row[] = $no;
-            $row[] = $field->product_name;
-            $row[] = "Rp. " . number_format($field->price, 0, '.', '.');
-            $row[] = $field->stock;
-            $row[] = "<a href='" . site_url('master/produk/hapusProduk/' . $field->id) . "' onclick='return confirm(`Yakin ingin hapus produk?`)' class='btn btn-danger btn-icon'><i class='fa fa-trash'></i></a> <a href='" . site_url('master/produk/editProduk/' . $field->id) . "' class='btn btn-warning btn-icon'><i class='fa fa-pen'></i></a>";
+            $row[] = $field->name;
+            $row[] = $field->username;
+            $row[] = $field->role_description;
+            $row[] = $field->phone;
+            $row[] = "<a href='" . site_url('master/user/hapusUser/' . $field->id) . "' onclick='return confirm(`Yakin ingin hapus user?`)' class='btn btn-danger btn-icon'><i class='fa fa-trash'></i></a> <a href='" . site_url('master/user/editUser/' . $field->id) . "' class='btn btn-warning btn-icon'><i class='fa fa-pen'></i></a>";
 
             $data[] = $row;
         }
         $output = array(
             "draw"         => $_POST['draw'],
-            "recordsTotal" => $this->pm->countDataProduk(),
-            "recordsFiltered" => $this->pm->countDataProduk(),
+            "recordsTotal" => $this->um->countDataUser(),
+            "recordsFiltered" => $this->um->countDataUser(),
             "data" => $data,
         );
         echo json_encode($output);
     }
 
-    public function export_shifting()
-    {
-        $f_date1 = $this->input->post('f_date1');
-        $f_date2 = $this->input->post('f_date2');
-        $f_selectBy = $this->input->post('f_selectBy');
-        if ($f_selectBy == 'd') {
-            $f_divisi = $this->input->post('f_divisi');
-            $f_tipe = "";
-        } else {
-            $f_divisi = "";
-            $f_tipe = $this->input->post('f_tipe');
-        }
-        $f_status = $this->input->post('f_status');
-
-        $f_date1_ = new DateTime($f_date1);
-        $f_date2_ = new DateTime($f_date2);
-        $interval = $f_date1_->diff($f_date2_);
-
-        if ($f_date1 == "" && $f_date2 == "" && $f_divisi == "" && $f_tipe == "" && $f_status == "") {
-            $this->session->set_flashdata('msg', 'Mohon isi start_date, end_date, divisi atau name/tipe dan status terlebih dahulu!!!');
-            redirect('Shifting/report_shifting');
-        }
-
-        // if ($interval->days >= 31) {
-        //     $this->session->set_flashdata('msg', 'Maximal Penarikan Data adalah 1 Bulan / 31 Hari !!!');
-        //     redirect('Shifting/report_shifting');
-        // } else {
-        if ($f_date1 == TRUE && $f_date2 == TRUE && $f_divisi == TRUE && $f_status == TRUE) {
-            $get = $this->sm->export_shifting($f_date1, $f_date2, $f_divisi, $f_status);
-
-            if ($get->num_rows() > 0) {
-                if ($f_status == "Approved") {
-                    $data['status_shifting'] = "DATA SHIFTING APPROVED";
-                } else {
-                    $data['status_shifting'] = "DATA SHIFTING REJECT";
-                }
-                $data['data_query'] = $get->result_array();
-                $this->load->view('shifting/export_data', $data);
-            } else {
-                $this->session->set_flashdata('msg', 'Data Tidak Ada!!!');
-                redirect('Shifting/report_shifting');
-            }
-        }
-
-        if ($f_date1 == TRUE && $f_date2 == TRUE && $f_tipe == TRUE && $f_status == TRUE) {
-            if ($f_tipe == "All") {
-                $get = $this->sm->export_all_shifting($f_date1, $f_date2, $f_status);
-
-                if ($get->num_rows() > 0) {
-                    if ($f_status == "Approved") {
-                        $data['status_shifting'] = "DATA SHIFTING APPROVED";
-                    } else {
-                        $data['status_shifting'] = "DATA SHIFTING REJECT";
-                    }
-                    $data['data_query'] = $get->result_array();
-                    $this->load->view('shifting/export_data', $data);
-                } else {
-                    $this->session->set_flashdata('msg', 'Data Tidak Ada!!!');
-                    redirect('showing_data');
-                }
-            } else {
-                $get = $this->sm->export_name_shifting($f_date1, $f_date2, $f_tipe, $f_status);
-
-                if ($get->num_rows() > 0) {
-                    if ($f_status == "Approved") {
-                        $data['status_shifting'] = "DATA SHIFTING APPROVED";
-                    } else {
-                        $data['status_shifting'] = "DATA SHIFTING REJECT";
-                    }
-                    $data['data_query'] = $get->result_array();
-                    $this->load->view('shifting/export_data', $data);
-                } else {
-                    $this->session->set_flashdata('msg', 'Data Tidak Ada!!!');
-                    redirect('showing_data');
-                }
-            }
-        }
-        // }
-    }
-
     private function duplicate_entry()
     {
         $id             = $this->input->post('id');
-        $namaProduk     = trim(htmlspecialchars($this->input->post('product_name')));
-        $where          = "(product_name = '$namaProduk' AND id != '$id')";
-        $query          = $this->pm->getData('product', $where);
+        $namaProduk     = trim(htmlspecialchars($this->input->post('name')));
+        $where          = "(name = '$namaProduk' AND status = 'ACTIVE' AND role != 1 AND id != '$id')";
+        $query          = $this->um->getData('users', $where);
 
         if ($query->num_rows() > 0) {
             return '1';
@@ -224,17 +160,23 @@ class User extends MY_Controller
         }
     }
 
-    private function validationProduk()
+    private function validationUser()
     {
-        $this->form_validation->set_rules('product_name', 'Nama Produk', 'trim|required', [
-            'required' => 'Nama Produk wajib diisi!'
+        $this->form_validation->set_rules('name', 'Nama', 'trim|required', [
+            'required' => 'Nama wajib diisi!'
         ]);
-        $this->form_validation->set_rules('price', 'Harga', 'trim|required|numeric', [
-            'required' => 'Harga wajib diisi!',
-            'numeric'  => 'Inputan wajib angka'
+        $this->form_validation->set_rules('username', 'Username', 'trim|required', [
+            'required' => 'Username wajib diisi!'
         ]);
-        $this->form_validation->set_rules('stock', 'Stok', 'trim|required|numeric', [
-            'required' => 'Stok wajib diisi!'
+        $this->form_validation->set_rules('password', 'Password', 'trim|required', [
+            'required' => 'Password wajib diisi!'
+        ]);
+        $this->form_validation->set_rules('phone', 'No Telepon', 'trim|required|numeric', [
+            'required' => 'No Telepon wajib diisi!',
+            'numeric'  => 'Hanya di perbolehkan angka saja!'
+        ]);
+        $this->form_validation->set_rules('role', 'Role', 'required', [
+            'required' => 'Role wajib diisi!'
         ]);
     }
 }

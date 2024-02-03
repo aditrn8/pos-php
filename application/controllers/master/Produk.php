@@ -11,6 +11,7 @@ class Produk extends MY_Controller
         date_default_timezone_set('Asia/Jakarta');
 
         $this->name     = $this->session->userdata('name');
+        $this->userId   = $this->session->userdata('user_id');
         $this->dateNow  = date('Y-m-d H:i:s');
     }
 
@@ -41,7 +42,7 @@ class Produk extends MY_Controller
                     'product_name'      => $namaProduk,
                     'price'             => $hargaProduk,
                     'stock'             => $stokProduk,
-                    'created_by'        => $this->name
+                    'created_by'        => $this->userId
                 ];
 
                 $this->pm->insert('product', $dataInsert);
@@ -76,7 +77,7 @@ class Produk extends MY_Controller
                     'product_name'      => $namaProduk,
                     'price'             => $hargaProduk,
                     'stock'             => $stokProduk,
-                    'updated_by'        => $this->name,
+                    'updated_by'        => $this->userId,
                     'updated_at'        => $this->dateNow
                 ];
 
@@ -95,12 +96,11 @@ class Produk extends MY_Controller
     {
         $dataUpdate = [
             'is_deleted'    => 1,
-            'deleted_by'    => $this->name,
+            'deleted_by'    => $this->userId,
             'deleted_at'    => $this->dateNow
         ];
 
         $this->pm->update('product', $dataUpdate, ['id' => $id]);
-        // $this->pm->delete('product', ['id' => $id]);
         $this->session->set_flashdata('msg', 'Berhasil menghapus produk!');
         redirect('master/produk');
     }
@@ -129,86 +129,6 @@ class Produk extends MY_Controller
             "data" => $data,
         );
         echo json_encode($output);
-    }
-
-    public function export_shifting()
-    {
-        $f_date1 = $this->input->post('f_date1');
-        $f_date2 = $this->input->post('f_date2');
-        $f_selectBy = $this->input->post('f_selectBy');
-        if ($f_selectBy == 'd') {
-            $f_divisi = $this->input->post('f_divisi');
-            $f_tipe = "";
-        } else {
-            $f_divisi = "";
-            $f_tipe = $this->input->post('f_tipe');
-        }
-        $f_status = $this->input->post('f_status');
-
-        $f_date1_ = new DateTime($f_date1);
-        $f_date2_ = new DateTime($f_date2);
-        $interval = $f_date1_->diff($f_date2_);
-
-        if ($f_date1 == "" && $f_date2 == "" && $f_divisi == "" && $f_tipe == "" && $f_status == "") {
-            $this->session->set_flashdata('msg', 'Mohon isi start_date, end_date, divisi atau name/tipe dan status terlebih dahulu!!!');
-            redirect('Shifting/report_shifting');
-        }
-
-        // if ($interval->days >= 31) {
-        //     $this->session->set_flashdata('msg', 'Maximal Penarikan Data adalah 1 Bulan / 31 Hari !!!');
-        //     redirect('Shifting/report_shifting');
-        // } else {
-        if ($f_date1 == TRUE && $f_date2 == TRUE && $f_divisi == TRUE && $f_status == TRUE) {
-            $get = $this->sm->export_shifting($f_date1, $f_date2, $f_divisi, $f_status);
-
-            if ($get->num_rows() > 0) {
-                if ($f_status == "Approved") {
-                    $data['status_shifting'] = "DATA SHIFTING APPROVED";
-                } else {
-                    $data['status_shifting'] = "DATA SHIFTING REJECT";
-                }
-                $data['data_query'] = $get->result_array();
-                $this->load->view('shifting/export_data', $data);
-            } else {
-                $this->session->set_flashdata('msg', 'Data Tidak Ada!!!');
-                redirect('Shifting/report_shifting');
-            }
-        }
-
-        if ($f_date1 == TRUE && $f_date2 == TRUE && $f_tipe == TRUE && $f_status == TRUE) {
-            if ($f_tipe == "All") {
-                $get = $this->sm->export_all_shifting($f_date1, $f_date2, $f_status);
-
-                if ($get->num_rows() > 0) {
-                    if ($f_status == "Approved") {
-                        $data['status_shifting'] = "DATA SHIFTING APPROVED";
-                    } else {
-                        $data['status_shifting'] = "DATA SHIFTING REJECT";
-                    }
-                    $data['data_query'] = $get->result_array();
-                    $this->load->view('shifting/export_data', $data);
-                } else {
-                    $this->session->set_flashdata('msg', 'Data Tidak Ada!!!');
-                    redirect('showing_data');
-                }
-            } else {
-                $get = $this->sm->export_name_shifting($f_date1, $f_date2, $f_tipe, $f_status);
-
-                if ($get->num_rows() > 0) {
-                    if ($f_status == "Approved") {
-                        $data['status_shifting'] = "DATA SHIFTING APPROVED";
-                    } else {
-                        $data['status_shifting'] = "DATA SHIFTING REJECT";
-                    }
-                    $data['data_query'] = $get->result_array();
-                    $this->load->view('shifting/export_data', $data);
-                } else {
-                    $this->session->set_flashdata('msg', 'Data Tidak Ada!!!');
-                    redirect('showing_data');
-                }
-            }
-        }
-        // }
     }
 
     private function duplicate_entry()

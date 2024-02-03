@@ -20,7 +20,6 @@ class Auth
 
 	function _do_login($username, $password)
 	{
-		// cek di database, ada ga?
 		$this->CI->db->from('users');
 		$this->CI->db->where('username', $username);
 		$this->CI->db->where('password=MD5("' . $password . '")', '', false);
@@ -33,6 +32,7 @@ class Auth
 			// ada, maka ambil informasi dari database
 			$userdata = $result->row();
 			$session_data = array(
+				'user_id'	=> $userdata->id,
 				'username'	=> $userdata->username,
 				'name'	=> $userdata->name,
 				'role'	=> $userdata->role,
