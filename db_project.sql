@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 03, 2024 at 11:25 AM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.2.33
+-- Generation Time: Feb 04, 2024 at 03:06 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -31,7 +31,7 @@ CREATE TABLE `master_role` (
   `id` int(11) NOT NULL,
   `role_id` int(11) NOT NULL,
   `role_description` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `master_role`
@@ -59,7 +59,7 @@ CREATE TABLE `product` (
   `is_deleted` int(11) DEFAULT 0,
   `deleted_by` varchar(100) DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `product`
@@ -74,7 +74,9 @@ INSERT INTO `product` (`id`, `product_name`, `price`, `stock`, `created_by`, `cr
 (7, 'brorborborbor', '11231', 123, 'Superadmin', '2024-02-03 16:03:12', 'Superadmin', '2024-02-03 16:20:56', 0, NULL, NULL),
 (9, 'coba ya', '123', 123, 'Superadmin', '2024-02-03 16:34:55', NULL, NULL, 0, NULL, NULL),
 (10, 'asd', '123', 123, 'Superadmin', '2024-02-03 16:36:49', NULL, NULL, 1, 'Superadmin', '2024-02-03 16:45:38'),
-(11, 'cuyyyyy nyoba edit yo', '123', 123, 'Superadmin', '2024-02-03 16:36:59', 'Superadmin', '2024-02-03 16:37:41', 1, 'Superadmin', '2024-02-03 16:44:01');
+(11, 'cuyyyyy nyoba edit yo', '123', 123, 'Superadmin', '2024-02-03 16:36:59', 'Superadmin', '2024-02-03 16:37:41', 1, 'Superadmin', '2024-02-03 16:44:01'),
+(12, 'botol', '123', 123123, 'Superadmin', '2024-02-03 22:04:10', NULL, NULL, 0, NULL, NULL),
+(13, 'yakinnn???', '123', 123123, '1', '2024-02-03 22:47:47', NULL, NULL, 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -84,14 +86,28 @@ INSERT INTO `product` (`id`, `product_name`, `price`, `stock`, `created_by`, `cr
 
 CREATE TABLE `supliers` (
   `id` int(11) NOT NULL,
-  `created_by_id` int(11) NOT NULL,
-  `nama` varchar(100) NOT NULL,
-  `alamat` text NOT NULL,
-  `kota` varchar(100) NOT NULL,
-  `provinsi` varchar(100) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `name` varchar(100) NOT NULL,
+  `address` text NOT NULL,
+  `city` varchar(100) NOT NULL,
+  `province` varchar(100) NOT NULL,
+  `created_by` varchar(100) DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT NULL,
+  `updated_by` varchar(100) DEFAULT NULL,
+  `is_deleted` varchar(1) DEFAULT '0',
+  `deleted_by` varchar(100) DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `supliers`
+--
+
+INSERT INTO `supliers` (`id`, `name`, `address`, `city`, `province`, `created_by`, `created_at`, `updated_at`, `updated_by`, `is_deleted`, `deleted_by`, `deleted_at`) VALUES
+(1, 'adit', 'Pasar Cikereteg, Kp. Ciletuh RT 02 RW 08 sebelah villa bumi arrasy', 'Bogor, Caringin, Ciderum', 'JB', '1', '2024-02-04 08:46:59', '2024-02-04 08:53:34', '1', '0', NULL, NULL),
+(2, 'adit', 'Pasar Cikereteg, Kp. Ciletuh RT 02 RW 08 sebelah villa bumi arrasy', 'Bogor, Caringin, Ciderum', 'JB', '1', '2024-02-04 08:48:26', NULL, NULL, '1', '1', '2024-02-04 08:48:49'),
+(3, 'Aditya Ridwan Nugraha', 'Pasar Cikereteg, Kp. Ciletuh RT 02 RW 08 sebelah villa bumi arrasy', 'Bogor, Caringin, Ciderum', 'JB', '1', '2024-02-04 08:53:46', NULL, NULL, '0', NULL, NULL),
+(4, 'asep', 'asdasd', 'asdasd', 'asdasd', '1', '2024-02-04 08:54:00', NULL, NULL, '0', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -107,18 +123,20 @@ CREATE TABLE `users` (
   `role` int(11) NOT NULL,
   `phone` varchar(20) NOT NULL,
   `created_by` varchar(100) DEFAULT NULL,
-  `created_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_by` varchar(100) DEFAULT NULL,
   `updated_at` datetime NOT NULL,
   `status` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `username`, `password`, `role`, `phone`, `created_by`, `created_at`, `updated_by`, `updated_at`, `status`) VALUES
-(1, 'Superadmin', 'admin1', '0cc175b9c0f1b6a831c399e269772661', 1, '12345678', NULL, '2024-02-02 00:03:23', NULL, '0000-00-00 00:00:00', 'ACTIVE');
+(1, 'Superadmin', 'admin1', 'a', 1, '12345678', NULL, '2024-02-02 00:03:23', NULL, '0000-00-00 00:00:00', 'ACTIVE'),
+(8, 'rusman', 'rusmin', '123', 2, '123', '1', '2024-02-04 00:46:14', '1', '2024-02-04 00:47:09', 'ACTIVE'),
+(9, 'ramzi', 'ramzi', '123', 2, '123', '1', '2024-02-04 00:46:25', NULL, '0000-00-00 00:00:00', 'ACTIVE');
 
 -- --------------------------------------------------------
 
@@ -135,7 +153,7 @@ CREATE TABLE `user_logs` (
   `from_ip` varchar(20) NOT NULL,
   `mac_address` varchar(20) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `user_logs`
@@ -147,7 +165,18 @@ INSERT INTO `user_logs` (`log_id`, `username`, `message`, `action`, `from_url`, 
 (3, 'admin', 'login gagal', 'login', 'http://localhost', '::1', '', '2024-02-01 17:13:20'),
 (4, 'admin1', 'login sukses', 'login', 'http://localhost', '::1', '', '2024-02-01 17:13:22'),
 (5, 'admin1', 'login sukses', 'login', 'http://localhost', '::1', '', '2024-02-02 12:26:06'),
-(6, 'admin1', 'login sukses', 'login', 'http://localhost', '::1', '', '2024-02-03 08:23:40');
+(6, 'admin1', 'login sukses', 'login', 'http://localhost', '::1', '', '2024-02-03 08:23:40'),
+(7, 'admin1', 'login sukses', 'login', 'http://localhost', '::1', '', '2024-02-03 15:02:05'),
+(8, 'admin1', 'logout sukses', 'logout', 'http://localhost', '::1', '', '2024-02-03 15:47:27'),
+(9, 'admin1', 'login sukses', 'login', 'http://localhost', '::1', '', '2024-02-03 15:47:31'),
+(10, 'admin1', 'logout sukses', 'logout', 'http://localhost', '::1', '', '2024-02-03 17:25:10'),
+(11, 'adit', 'login sukses', 'login', 'http://localhost', '::1', '', '2024-02-03 17:25:13'),
+(12, 'adit', 'logout sukses', 'logout', 'http://localhost', '::1', '', '2024-02-03 17:25:17'),
+(13, 'admin1', 'login sukses', 'login', 'http://localhost', '::1', '', '2024-02-03 17:25:22'),
+(14, 'admin', 'login gagal', 'login', 'http://localhost', '::1', '', '2024-02-04 01:29:28'),
+(15, 'admin1', 'login sukses', 'login', 'http://localhost', '::1', '', '2024-02-04 01:29:32'),
+(16, 'admin1', 'logout sukses', 'logout', 'http://localhost', '::1', '', '2024-02-04 01:57:37'),
+(17, 'admin1', 'login sukses', 'login', 'http://localhost', '::1', '', '2024-02-04 01:57:42');
 
 --
 -- Indexes for dumped tables
@@ -197,25 +226,25 @@ ALTER TABLE `master_role`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `supliers`
 --
 ALTER TABLE `supliers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `user_logs`
 --
 ALTER TABLE `user_logs`
-  MODIFY `log_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `log_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
