@@ -18,7 +18,7 @@
         </a>
         <ul class="sub-menu">
             <li><a href="<?php echo site_url(); ?>master/user">User</a></li>
-            <li><a href="<?php echo site_url(); ?>admin/master_divisi">Suplier</a></li>
+            <li><a href="<?php echo site_url(); ?>master/suplier">Suplier</a></li>
             <li><a href="<?php echo site_url(); ?>master/produk">Produk</a></li>
         </ul>
     </li>

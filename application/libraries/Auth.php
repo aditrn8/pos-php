@@ -22,7 +22,8 @@ class Auth
 	{
 		$this->CI->db->from('users');
 		$this->CI->db->where('username', $username);
-		$this->CI->db->where('password=MD5("' . $password . '")', '', false);
+		// $this->CI->db->where('password=MD5("' . $password . '")', '', false);
+		$this->CI->db->where('password', $password);
 		$this->CI->db->where('status', 'ACTIVE');
 		$result = $this->CI->db->get();
 		if ($result->num_rows() == 0) {

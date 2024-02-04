@@ -135,7 +135,7 @@ class Produk extends MY_Controller
     {
         $id             = $this->input->post('id');
         $namaProduk     = trim(htmlspecialchars($this->input->post('product_name')));
-        $where          = "(product_name = '$namaProduk' AND id != '$id')";
+        $where          = "(product_name = '$namaProduk' AND is_deleted = 0 AND id != '$id')";
         $query          = $this->pm->getData('product', $where);
 
         if ($query->num_rows() > 0) {

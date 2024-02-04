@@ -1,10 +1,10 @@
 <ol class="breadcrumb pull-right">
     <li class="breadcrumb-item"><a href="<?= base_url('') ?>">Dashboard</a></li>
-    <li class="breadcrumb-item"><a>Data Produk</a></li>
+    <li class="breadcrumb-item"><a>Data Suplier</a></li>
 </ol>
 
 <h1 class="page-header">
-    <a href="<?php echo base_url() ?>master/produk/tambahProduk" class="btn btn-primary">Tambah Produk</a>
+    <a href="<?php echo base_url() ?>master/suplier/tambahSuplier" class="btn btn-primary">Tambah Suplier</a>
 </h1>
 
 <?php if ($this->session->flashdata('msg')) { ?>
@@ -21,7 +21,7 @@
     <div class="col-lg-12">
         <div class="panel panel-inverse">
             <div class="panel-heading">
-                <h4 class="panel-title">Data Produk</h4>
+                <h4 class="panel-title">Data Suplier</h4>
             </div>
             <div class="panel-body">
                 <div class="table-responsive">
@@ -29,9 +29,10 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Nama Produk</th>
-                                <th>Harga</th>
-                                <th>Stok</th>
+                                <th>Nama</th>
+                                <th>Alamat</th>
+                                <th>Kota</th>
+                                <th>Provinsi</th>
                                 <th>&nbsp;</th>
                             </tr>
                         </thead>
@@ -50,7 +51,7 @@
         table = $('#table').DataTable({
             initComplete: function() {
                 var url;
-                url = "<?= site_url('master/produk/') ?>";
+                url = "<?= site_url('master/suplier/') ?>";
                 var input = $('#table_filter input').unbind(),
                     self = this.api(),
                     searchButton = $('<span id="btnSearch" class="btn btn-primary btn-sm" style="pull-rigth"><i class="fa fa-search"></i></span>')
@@ -79,7 +80,7 @@
             "order": [],
 
             "ajax": {
-                "url": "<?php echo site_url('master/produk/getDataProduk/') ?>",
+                "url": "<?php echo site_url('master/suplier/getDataSuplier') ?>",
                 "type": "POST",
                 "data": function(data) {
                     // data.tgl = $('#tgl').val();
@@ -88,7 +89,7 @@
             },
 
             "columnDefs": [{
-                "targets": [0, 4],
+                "targets": [0, 5],
                 "orderable": false,
             }, ],
         });
