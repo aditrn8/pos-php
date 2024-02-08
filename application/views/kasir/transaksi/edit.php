@@ -80,7 +80,7 @@ $no = 1;
                                     <?= "Rp." . number_format($bt->Harga_Barang, 0, '.', '.') ?>
                                 </td>
                                 <td>
-                                    <input type="number" class="form-control" value="<?= $bt->Jumlah_Barang ?>" min="1">
+                                    <input type="number" class="form-control" value="<?= $bt->Jumlah_Barang ?>" min="1" onchange="kalkulasi(this.value,<?= $bt->ID_Penjualan ?>,<?= $id ?>)">
                                 </td>
                                 <td>
                                     <?= "Rp." . number_format($bt->Jumlah_Transaksi_Barang, 0, '.', '.') ?>
@@ -95,4 +95,39 @@ $no = 1;
             </div>
         </div>
     </div>
+
+    <div class="col-md-12">
+        <div class="panel panel-inverse">
+            <div class="panel-heading">
+                <h4 class="panel-title">Form Pembayaran</h4>
+            </div>
+
+            <div class="panel-body">
+                <?= form_open('kasir/transaksi/inputBarangTemp/' . $id) ?>
+                <div class="form-group">
+                    <label for="">TOTAL :</label>
+                    <input type="text" class="form-control" value="Rp.<?= number_format($totalBelanja, 0, '.', '.') ?>" readonly>
+                </div>
+
+                <?= form_close() ?>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script>
+    function reload_page() {
+        window.location.reload();
+    }
+
+    function kalkulasi(val, idPenjualan, id) {
+        $.ajax({
+            url: "<?= site_url('kasir/transaksi/kalkulasi/') ?>" + id + "/" + idPenjualan + "/" + val,
+            type: "GET",
+            success: function(data) {
+                alert('Berhasil!');
+                reload_page();
+            }
+        });
+    }
+</script>

@@ -42,7 +42,8 @@ class Transaksi extends MY_Controller
             'id'            => $id,
             'title'         => 'Input Belanja',
             'barangJual'    => $this->db->query("SELECT * FROM product WHERE product_name NOT IN (SELECT Nama_Barang FROM tbl_penjualan WHERE ID_Transaksi = $id) AND is_deleted = 0"),
-            'barangTemp'    => $this->db->where('ID_Transaksi', $id)->get('tbl_penjualan')
+            'barangTemp'    => $this->db->where('ID_Transaksi', $id)->get('tbl_penjualan'),
+            'totalBelanja'  => $this->db->query("SELECT SUM(Jumlah_Transaksi_Barang) as jtb FROM tbl_penjualan WHERE ID_Transaksi = $id")->row()->jtb
         ];
 
         $this->template->load('template', 'kasir/transaksi/edit', $data);
@@ -84,6 +85,18 @@ class Transaksi extends MY_Controller
         $this->tm->update('product', $dataUpdate, ['id' => $id]);
         $this->session->set_flashdata('msg', 'Berhasil menghapus produk!');
         redirect('master/produk');
+    }
+
+    public function kalkulasi($id, $id_penjualan, $val)
+    {
+        $hargaDB = $this->db->select('Harga_Barang')->from('tbl_penjualan')->where('ID_Penjualan', $id_penjualan)->get()->row()->Harga_Barang;
+        $hargaDB_ = $hargaDB * $val;
+        $dataUpdate = [
+            'Jumlah_Barang' => $val,
+            'Jumlah_Transaksi_Barang' => $hargaDB_,
+        ];
+        $this->db->update('tbl_penjualan', $dataUpdate, ['ID_Penjualan' => $id_penjualan]);
+        redirect('kasir/transaksi/inputBelanja/' . $id);
     }
 
 
