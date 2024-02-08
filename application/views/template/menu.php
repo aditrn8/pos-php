@@ -23,6 +23,17 @@
         </ul>
     </li>
 
+    <li class="has-sub">
+        <a href="javascript:;">
+            <b class="caret"></b>
+            <i class="fas fa-shopping-cart"></i>
+            <span>Transaksi</span>
+        </a>
+        <ul class="sub-menu">
+            <li><a href="<?php echo site_url(); ?>kasir/transaksi">Input Transaksi</a></li>
+        </ul>
+    </li>
+
 
     <li>
         <a href="<?php echo base_url(); ?>logout">
