@@ -95,24 +95,32 @@ $no = 1;
             </div>
         </div>
     </div>
-
-    <div class="col-md-12">
-        <div class="panel panel-inverse">
-            <div class="panel-heading">
-                <h4 class="panel-title">Form Pembayaran</h4>
-            </div>
-
-            <div class="panel-body">
-                <?= form_open('kasir/transaksi/inputBarangTemp/' . $id) ?>
-                <div class="form-group">
-                    <label for="">TOTAL :</label>
-                    <input type="text" class="form-control" value="Rp.<?= number_format($totalBelanja, 0, '.', '.') ?>" readonly>
+    <?php if (count($barangTemp->result()) > 0) : ?>
+        <div class="col-md-12">
+            <div class="panel panel-inverse">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Form Pembayaran</h4>
                 </div>
 
-                <?= form_close() ?>
+                <div class="panel-body">
+                    <?= form_open('kasir/transaksi/inputPembayaran/' . $id) ?>
+                    <div class="form-group">
+                        <label for="">TOTAL :</label>
+                        <input type="hidden" name="Bill" value="<?= $totalBelanja ?>">
+                        <input type="text" class="form-control" value="Rp.<?= number_format($totalBelanja, 0, '.', '.') ?>" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Bayar : </label>
+                        <input type="text" name="Paid" class="form-control" required>
+                    </div>
+
+                    <button class="btn btn-primary btn-block">Bayar <i class="fa fa-dollar"></i></button>
+
+                    <?= form_close() ?>
+                </div>
             </div>
         </div>
-    </div>
+    <?php endif; ?>
 </div>
 
 <script>

@@ -109,6 +109,27 @@ class Transaksi extends MY_Controller
         // redirect('kasir/transaksi/inputBelanja/' . $id);
     }
 
+    public function inputPembayaran($id)
+    {
+        $bill = $this->input->post('Bill');
+        $paid = $this->input->post('Paid');
+
+        if ($paid < $bill) {
+            $this->session->set_flashdata('msg', 'Pemabayaran Gagal!');
+            redirect('kasir/transaksi/inputBelanja/' . $id);
+        } else {
+            $dataUpdate = [
+                'Bill' => $bill,
+                'Paid' => $paid,
+                'Is_Paid' => 1
+            ];
+
+            $this->db->update('tbl_transaksi', $dataUpdate, ['ID_Transaksi' => $id]);
+            $this->session->set_flashdata('msg', 'Pemabayaran Berhasil!');
+            redirect('kasir/transaksi/');
+        }
+    }
+
 
     function getDataTransaksi()
     {

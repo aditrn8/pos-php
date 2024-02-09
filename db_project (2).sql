@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 08, 2024 at 06:13 PM
+-- Generation Time: Feb 09, 2024 at 03:37 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.2.33
 
@@ -133,8 +133,8 @@ CREATE TABLE `tbl_penjualan` (
 --
 
 INSERT INTO `tbl_penjualan` (`ID_Penjualan`, `ID_Transaksi`, `Nama_Barang`, `Harga_Barang`, `Jumlah_Barang`, `Jumlah_Transaksi_Barang`, `Created_Date`, `Created_By`) VALUES
-(2, 2, 'Tomat', 2000, 1, 2000, '2024-02-08 23:17:52', '1'),
-(3, 2, 'Laptop Macbook', 150000, 1, 150000, '2024-02-08 23:18:31', '1');
+(8, 2, 'Laptop Macbook', 150000, 1, 150000, '2024-02-09 20:23:25', '1'),
+(9, 2, 'Tomat', 2000, 10, 20000, '2024-02-09 20:23:31', '1');
 
 -- --------------------------------------------------------
 
@@ -145,6 +145,8 @@ INSERT INTO `tbl_penjualan` (`ID_Penjualan`, `ID_Transaksi`, `Nama_Barang`, `Har
 CREATE TABLE `tbl_transaksi` (
   `ID_Transaksi` int(11) NOT NULL,
   `Is_Paid` int(11) DEFAULT 0,
+  `Bill` int(11) NOT NULL DEFAULT 0,
+  `Paid` int(11) NOT NULL DEFAULT 0,
   `Created_Date` datetime NOT NULL DEFAULT current_timestamp(),
   `Created_By` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -153,9 +155,9 @@ CREATE TABLE `tbl_transaksi` (
 -- Dumping data for table `tbl_transaksi`
 --
 
-INSERT INTO `tbl_transaksi` (`ID_Transaksi`, `Is_Paid`, `Created_Date`, `Created_By`) VALUES
-(1, 0, '2024-02-08 21:47:19', '1'),
-(2, 0, '2024-02-08 21:47:49', '1');
+INSERT INTO `tbl_transaksi` (`ID_Transaksi`, `Is_Paid`, `Bill`, `Paid`, `Created_Date`, `Created_By`) VALUES
+(1, 0, 0, 0, '2024-02-08 21:47:19', '1'),
+(2, 1, 170000, 170000, '2024-02-08 21:47:49', '1');
 
 -- --------------------------------------------------------
 
@@ -227,7 +229,9 @@ INSERT INTO `user_logs` (`log_id`, `username`, `message`, `action`, `from_url`, 
 (17, 'admin1', 'login sukses', 'login', 'http://localhost', '::1', '', '2024-02-04 01:57:42'),
 (18, 'admin1', 'login sukses', 'login', 'http://localhost', '::1', '', '2024-02-08 09:26:09'),
 (19, 'admin', 'login gagal', 'login', 'http://localhost', '::1', '', '2024-02-08 14:25:39'),
-(20, 'admin1', 'login sukses', 'login', 'http://localhost', '::1', '', '2024-02-08 14:25:42');
+(20, 'admin1', 'login sukses', 'login', 'http://localhost', '::1', '', '2024-02-08 14:25:42'),
+(21, 'admin1', 'login sukses', 'login', 'http://localhost', '::1', '', '2024-02-09 01:55:05'),
+(22, 'admin1', 'login sukses', 'login', 'http://localhost', '::1', '', '2024-02-09 13:06:13');
 
 --
 -- Indexes for dumped tables
@@ -301,7 +305,7 @@ ALTER TABLE `supliers`
 -- AUTO_INCREMENT for table `tbl_penjualan`
 --
 ALTER TABLE `tbl_penjualan`
-  MODIFY `ID_Penjualan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ID_Penjualan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_transaksi`
@@ -319,7 +323,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_logs`
 --
 ALTER TABLE `user_logs`
-  MODIFY `log_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `log_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
