@@ -124,9 +124,16 @@ $no = 1;
         $.ajax({
             url: "<?= site_url('kasir/transaksi/kalkulasi/') ?>" + id + "/" + idPenjualan + "/" + val,
             type: "GET",
+            dataType: "JSON",
             success: function(data) {
-                alert('Berhasil!');
-                reload_page();
+                console.log(data)
+                if (data.data == false) {
+                    alert('Inputan melebihi stock!');
+                    reload_page();
+                } else {
+                    alert('Berhasil');
+                    reload_page();
+                }
             }
         });
     }

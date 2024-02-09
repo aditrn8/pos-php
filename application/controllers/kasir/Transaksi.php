@@ -89,14 +89,24 @@ class Transaksi extends MY_Controller
 
     public function kalkulasi($id, $id_penjualan, $val)
     {
-        $hargaDB = $this->db->select('Harga_Barang')->from('tbl_penjualan')->where('ID_Penjualan', $id_penjualan)->get()->row()->Harga_Barang;
-        $hargaDB_ = $hargaDB * $val;
-        $dataUpdate = [
-            'Jumlah_Barang' => $val,
-            'Jumlah_Transaksi_Barang' => $hargaDB_,
-        ];
-        $this->db->update('tbl_penjualan', $dataUpdate, ['ID_Penjualan' => $id_penjualan]);
-        redirect('kasir/transaksi/inputBelanja/' . $id);
+        $hargaDB = $this->db->select('*')->from('tbl_penjualan')->where('ID_Penjualan', $id_penjualan)->get()->row();
+        $stock = $this->db->select('stock')->from('product')->where('product_name', $hargaDB->Nama_Barang)->get()->row()->stock;
+        if ($val > $stock) {
+            echo json_encode([
+                'data' => false
+            ]);
+        } else {
+            $hargaDB_ = $hargaDB->Harga_Barang * $val;
+            $dataUpdate = [
+                'Jumlah_Barang' => $val,
+                'Jumlah_Transaksi_Barang' => $hargaDB_,
+            ];
+            $this->db->update('tbl_penjualan', $dataUpdate, ['ID_Penjualan' => $id_penjualan]);
+            echo json_encode([
+                'data' => true
+            ]);
+        }
+        // redirect('kasir/transaksi/inputBelanja/' . $id);
     }
 
 
@@ -113,7 +123,7 @@ class Transaksi extends MY_Controller
             $row[] = $field->ID_Transaksi;
             $row[] = $is_paid;
             $row[] = $field->Created_Date;
-            $row[] = "<a href='" . site_url('kasir/transaksi/editTransaksi/' . $field->ID_Transaksi) . "' class='btn btn-warning btn-icon'><i class='fa fa-pen'></i></a>";
+            $row[] = "<a href='" . site_url('kasir/transaksi/inputBelanja/' . $field->ID_Transaksi) . "' class='btn btn-warning btn-icon'><i class='fa fa-pen'></i></a>";
 
             $data[] = $row;
         }
