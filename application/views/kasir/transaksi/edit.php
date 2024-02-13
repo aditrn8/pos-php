@@ -32,7 +32,23 @@ $no = 1;
             </div>
 
             <div class="panel-body">
-                <?= form_open('kasir/transaksi/inputBarangTemp/' . $id) ?>
+                <div class="row">
+                    <?php
+                    foreach ($barangJual->result() as $bj) { ?>
+                        <div class="col-md-2">
+                            <div class="card">
+                                <img class="card-img-top" src="<?= base_url('upload/4b18d737f6393e25e15df337c8709b4f.png') ?>" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title"><?= $bj->product_name ?></h5>
+                                    <p class="card-text">Rp. <?= number_format($bj->price, 0, '.', '.') ?></p>
+                                    <a href="<?= site_url('kasir/transaksi/inputBarangTemp/' . $id . '/' . $bj->product_name . '/' . $bj->price . '/' . $bj->stock) ?>" class="btn btn-success">Tambah ke keranjang <i class="fas fa-shopping-cart"></i></a>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    <?php } ?>
+                </div>
+                <!-- <?= form_open('kasir/transaksi/inputBarangTemp/' . $id) ?>
                 <div class="form-group">
                     <label for="">Barang :</label>
                     <select name="Barang" class="form-control" required>
@@ -45,7 +61,7 @@ $no = 1;
                     <button type="submit" class="btn btn-success btn-block">Tambah ke keranjang <i class="fa fa-plus"></i></button>
                 </div>
 
-                <?= form_close() ?>
+                <?= form_close() ?> -->
             </div>
         </div>
     </div>
@@ -107,9 +123,23 @@ $no = 1;
                     <div class="form-group">
                         <label for="">TOTAL :</label>
                         <input type="hidden" name="Bill" value="<?= $totalBelanja ?>">
-                        <input type="text" class="form-control" value="Rp.<?= number_format($totalBelanja, 0, '.', '.') ?>" disabled>
+                        <input type="text" class="form-control" value="Rp. <?= number_format($totalBelanja, 0, '.', '.') ?>" disabled>
                     </div>
                     <div class="form-group">
+                        <label for="">Metode Pembayaran</label>
+                        <select name="" class="form-control" required>
+                            <option value="">-- Pilih --</option>
+                            <option value="Tunai">Tunai</option>
+                            <option value="Suplier">Suplier</option>
+                        </select>
+                    </div>
+
+                    <div id="paidSuplier" class="form-group" hidden>
+                        <label for="">Bayar : </label>
+                        <input type="text" name="Paid" class="form-control" required>
+                    </div>
+
+                    <div id="paidTunai" class="form-group" hidden>
                         <label for="">Bayar : </label>
                         <input type="text" name="Paid" class="form-control" required>
                     </div>
@@ -136,7 +166,7 @@ $no = 1;
             success: function(data) {
                 console.log(data)
                 if (data.data == false) {
-                    alert('Inputan melebihi stock!');
+                    alert('Gagal!');
                     reload_page();
                 } else {
                     alert('Berhasil');

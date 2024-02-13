@@ -49,16 +49,17 @@ class Transaksi extends MY_Controller
         $this->template->load('template', 'kasir/transaksi/edit', $data);
     }
 
-    public function inputBarangTemp($id)
+    public function inputBarangTemp($id, $productName, $price, $stock)
     {
-        $arrBarang = explode('|', $this->input->post('Barang'));
+        $productName_ = str_replace('%20', ' ', $productName);
+
 
         $dataInsert = [
             'ID_Transaksi'              => $id,
-            'Nama_Barang'               => $arrBarang[0],
-            'Harga_Barang'              => $arrBarang[1],
+            'Nama_Barang'               => $productName_,
+            'Harga_Barang'              => $price,
             'Jumlah_Barang'             => 1,
-            'Jumlah_Transaksi_Barang'   => 1 * $arrBarang[1],
+            'Jumlah_Transaksi_Barang'   => 1 * $price,
             'Created_By'                => $this->userId
         ];
 
@@ -91,7 +92,7 @@ class Transaksi extends MY_Controller
     {
         $hargaDB = $this->db->select('*')->from('tbl_penjualan')->where('ID_Penjualan', $id_penjualan)->get()->row();
         $stock = $this->db->select('stock')->from('product')->where('product_name', $hargaDB->Nama_Barang)->get()->row()->stock;
-        if ($val > $stock) {
+        if ($val > $stock || $val == 0) {
             echo json_encode([
                 'data' => false
             ]);
