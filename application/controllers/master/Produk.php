@@ -37,10 +37,11 @@ class Produk extends MY_Controller
                 $namaProduk     = trim(htmlspecialchars($this->input->post('product_name')));
                 $hargaProduk    = trim(htmlspecialchars($this->input->post('price')));
                 $stokProduk     = trim(htmlspecialchars($this->input->post('stock')));
+                $barcodeId      = $this->generate_random_string();
 
                 $dataInsert = [
                     'product_name'      => $namaProduk,
-                    // 'barcode_id'        => // tolong buatin barcode nya,
+                    'barcode_id'        => $barcodeId,
                     'price'             => $hargaProduk,
                     'stock'             => $stokProduk,
                     'created_by'        => $this->userId
@@ -73,6 +74,7 @@ class Produk extends MY_Controller
                 $namaProduk     = trim(htmlspecialchars($this->input->post('product_name')));
                 $hargaProduk    = trim(htmlspecialchars($this->input->post('price')));
                 $stokProduk     = trim(htmlspecialchars($this->input->post('stock')));
+
 
                 $dataUpdate = [
                     'product_name'      => $namaProduk,
@@ -112,10 +114,12 @@ class Produk extends MY_Controller
         $list = $this->pm->dataProduk();
         $data = array();
         $no   = $_POST['start'];
+        $generator = new Picqer\Barcode\BarcodeGeneratorPNG();
         foreach ($list as $field) {
             $no++;
             $row = array();
             $row[] = $no;
+            $row[] = '<img src="data:image/png;base64,' . base64_encode($generator->getBarcode($field->barcode_id, $generator::TYPE_CODE_128)) . '"> <br> <p>' . $field->barcode_id . '</p>';
             $row[] = $field->product_name;
             $row[] = "Rp. " . number_format($field->price, 0, '.', '.');
             $row[] = $field->stock;
@@ -160,28 +164,33 @@ class Produk extends MY_Controller
         ]);
     }
 
-    public function generate_barcode()
+    function generate_random_string($length = 8)
     {
-        // Load library barcode
-        $this->load->library('zend');
+        // Karakter yang digunakan untuk menghasilkan string acak
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-        // Load zend library
-        $this->zend->load('Zend/Barcode');
+        // Panjang karakter
+        $characters_length = strlen($characters);
 
-        // Generate barcode
-        $barcodeConfig = array(
-            'text' => '123456789', // Text yang ingin dijadikan barcode, bisa diganti sesuai kebutuhan
-            'barHeight' => 40, // Tinggi barcode dalam pixel
-            'factor' => '1', // Faktor scaling (default 2)
-        );
+        // Variabel untuk menyimpan string acak
+        $random_string = '';
 
-        // Path untuk menyimpan barcode
-        $barcodeImage = FCPATH . 'assets/barcode/' . time() . '.png';
+        // Loop untuk menghasilkan string acak
+        for ($i = 0; $i < $length; $i++) {
+            // Pilih karakter acak dari daftar karakter
+            $random_character = $characters[rand(0, $characters_length - 1)];
 
-        // Render barcode ke file gambar PNG
-        Zend_Barcode::render('code128', 'image', $barcodeConfig, array(), $barcodeImage);
+            // Tambahkan karakter acak ke string
+            $random_string .= $random_character;
+        }
 
-        // Return path barcode
-        return $barcodeImage;
+        // Kembalikan string acak
+        return $random_string;
+    }
+
+    function generate()
+    {
+        $generator = new Picqer\Barcode\BarcodeGeneratorHTML();
+        echo $generator->getBarcode('081231723897', $generator::TYPE_CODE_128);
     }
 }
