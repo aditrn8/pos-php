@@ -72,6 +72,7 @@ $config['uri_protocol']    = 'REQUEST_URI';
 */
 $config['url_suffix'] = '';
 
+$config['zend_framework_path'] = '/vendor/ZendFramework';
 /*
 |--------------------------------------------------------------------------
 | Default Language
@@ -142,7 +143,7 @@ $config['subclass_prefix'] = 'MY_';
 | Note: This will NOT disable or override the CodeIgniter-specific
 |	autoloading (application/config/autoload.php)
 */
-$config['composer_autoload'] = FALSE;
+$config['composer_autoload'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------

@@ -40,6 +40,7 @@ class Produk extends MY_Controller
 
                 $dataInsert = [
                     'product_name'      => $namaProduk,
+                    // 'barcode_id'        => // tolong buatin barcode nya,
                     'price'             => $hargaProduk,
                     'stock'             => $stokProduk,
                     'created_by'        => $this->userId
@@ -157,5 +158,30 @@ class Produk extends MY_Controller
         $this->form_validation->set_rules('stock', 'Stok', 'trim|required|numeric', [
             'required' => 'Stok wajib diisi!'
         ]);
+    }
+
+    public function generate_barcode()
+    {
+        // Load library barcode
+        $this->load->library('zend');
+
+        // Load zend library
+        $this->zend->load('Zend/Barcode');
+
+        // Generate barcode
+        $barcodeConfig = array(
+            'text' => '123456789', // Text yang ingin dijadikan barcode, bisa diganti sesuai kebutuhan
+            'barHeight' => 40, // Tinggi barcode dalam pixel
+            'factor' => '1', // Faktor scaling (default 2)
+        );
+
+        // Path untuk menyimpan barcode
+        $barcodeImage = FCPATH . 'assets/barcode/' . time() . '.png';
+
+        // Render barcode ke file gambar PNG
+        Zend_Barcode::render('code128', 'image', $barcodeConfig, array(), $barcodeImage);
+
+        // Return path barcode
+        return $barcodeImage;
     }
 }
