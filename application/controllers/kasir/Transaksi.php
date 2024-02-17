@@ -119,20 +119,57 @@ class Transaksi extends MY_Controller
     {
         $bill = $this->input->post('Bill');
         $paid = $this->input->post('Paid');
+        $paidType = $this->input->post('paidType');
 
-        if ($paid < $bill) {
-            $this->session->set_flashdata('msg', 'Pemabayaran Gagal!');
-            redirect('kasir/transaksi/inputBelanja/' . $id);
+        if ($paidType == "Transfer") {
+            // Validasi file bukti transfer
+            $config['upload_path']   = './upload/'; // Direktori untuk menyimpan file
+            $config['allowed_types'] = 'jpg|jpeg|png'; // Ekstensi file yang diperbolehkan
+            $config['max_size']      = 10048; // Ukuran maksimum file (dalam kilobita)
+            $config['file_name']     = 'bukti_transfer_' . time(); // Nama file
+
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('buktiTf')) {
+                // Jika upload gagal
+                $error = $this->upload->display_errors();
+                $this->session->set_flashdata('msg', 'Upload bukti transfer gagal: ' . $error);
+                redirect('kasir/transaksi/inputBelanja/' . $id);
+            } else {
+                // Jika upload berhasil
+                $uploadData = $this->upload->data();
+                $buktiTransfer = $uploadData['file_name'];
+
+                // Simpan data pembayaran
+                $dataUpdate = [
+                    'Bill' => $bill,
+                    'Paid' => $bill,
+                    'Bukti_Transfer' => $buktiTransfer, // Simpan nama file bukti transfer
+                    'Is_Paid' => 1,
+                    'Paid_Type' => $paidType
+                ];
+
+                $this->db->update('tbl_transaksi', $dataUpdate, ['ID_Transaksi' => $id]);
+                $this->session->set_flashdata('msg', 'Pembayaran berhasil!');
+                redirect('kasir/transaksi/');
+            }
         } else {
-            $dataUpdate = [
-                'Bill' => $bill,
-                'Paid' => $paid,
-                'Is_Paid' => 1
-            ];
 
-            $this->db->update('tbl_transaksi', $dataUpdate, ['ID_Transaksi' => $id]);
-            $this->session->set_flashdata('msg', 'Pemabayaran Berhasil!');
-            redirect('kasir/transaksi/');
+            if ($paid < $bill) {
+                $this->session->set_flashdata('msg', 'Pemabayaran Gagal!');
+                redirect('kasir/transaksi/inputBelanja/' . $id);
+            } else {
+                $dataUpdate = [
+                    'Bill' => $bill,
+                    'Paid' => $paid,
+                    'Is_Paid' => 1,
+                    'Paid_Type' => $paidType
+                ];
+
+                $this->db->update('tbl_transaksi', $dataUpdate, ['ID_Transaksi' => $id]);
+                $this->session->set_flashdata('msg', 'Pemabayaran Berhasil!');
+                redirect('kasir/transaksi/');
+            }
         }
     }
 

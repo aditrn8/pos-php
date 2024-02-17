@@ -151,7 +151,7 @@ $no = 1;
                 </div>
 
                 <div class="panel-body">
-                    <?= form_open('kasir/transaksi/inputPembayaran/' . $id) ?>
+                    <?= form_open_multipart('kasir/transaksi/inputPembayaran/' . $id) ?>
                     <div class="form-group">
                         <label for="">TOTAL :</label>
                         <input type="hidden" name="Bill" value="<?= $totalBelanja ?>">
@@ -159,21 +159,32 @@ $no = 1;
                     </div>
                     <div class="form-group">
                         <label for="">Metode Pembayaran</label>
-                        <select name="" class="form-control" required>
+                        <select name="paidType" id="paidType" class="form-control" required onchange="paidTypeJs(this.value)">
                             <option value="">-- Pilih --</option>
                             <option value="Tunai">Tunai</option>
-                            <option value="Suplier">Suplier</option>
+                            <option value="Transfer">Transfer</option>
                         </select>
                     </div>
 
-                    <div id="paidSuplier" class="form-group" hidden>
-                        <label for="">Bayar : </label>
-                        <input type="text" name="Paid" class="form-control" required>
+                    <script>
+
+                    </script>
+
+                    <div id="paidTransfer">
+                        <label for="">Bukti Transfer : </label>
+                        <input type="file" name="buktiTf" id="buktiTf" class="form-control" onchange="validateFile(event)">
+                        <div id="previewContainer" style="position: relative;">
+                            <img id="preview" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGrwXwU3LiaAHTbVPr3EX679rdj3OKpePN40Tb4B9S4g&s" alt="Preview Image" style="max-width: 200px; max-height: 200px; margin-top: 10px;">
+                            <div id="zoomButtons" style="position: absolute; bottom: 10px; right: 10px;">
+                                <button onclick="zoomIn()">Zoom In</button>
+                                <button onclick="zoomOut()">Zoom Out</button>
+                            </div>
+                        </div>
                     </div>
 
-                    <div id="paidTunai" class="form-group" hidden>
+                    <div id="paidTunai">
                         <label for="">Bayar : </label>
-                        <input type="text" name="Paid" class="form-control" required>
+                        <input type="text" name="Paid" class="form-control">
                     </div>
 
                     <button class="btn btn-primary btn-block">Bayar <i class="fa fa-dollar"></i></button>
@@ -242,68 +253,75 @@ $no = 1;
     }
 </script>
 
-<!-- <script type="text/javascript">
-    function onScanSuccess(qrCodeMessage) {
-        // $("#barcode").val(qrCodeMessage)
-
-        document.getElementById('barcode').value = qrCodeMessage;
-        document.getElementById('result').innerHTML = '<span class="result">' + qrCodeMessage + '</span>';
-    }
-
-    function onScanError(errorMessage) {
-        //handle scan error
-    }
-
-    var html5QrcodeScanner = new Html5QrcodeScanner(
-        "reader", {
-            fps: 10,
-            qrbox: 250
-        });
-    html5QrcodeScanner.render(onScanSuccess, onScanError);
-
-    // Tambahkan fungsi untuk menangani pemindaian barcode
-    function onBarcodeScan(barcodeMessage) {
-        document.getElementById('barcode').value = barcodeMessage;
-        // document.getElementById('result').innerHTML = '<span class="result">' + barcodeMessage + '</span>';
-    }
-
-    // Mulai pemindaian barcode
-    var html5BarcodeScanner = new Html5QrcodeScanner(
-        "reader", {
-            fps: 10,
-            qrbox: 250
-        });
-    html5BarcodeScanner.render(onBarcodeScan, onScanError);
-</script> -->
-
-<!-- <script type="text/javascript">
-    function onScanSuccess(qrCodeMessage) {
-        document.getElementById('barcode').value = qrCodeMessage;
-        $("#barcode").focus();
-        document.getElementById('result').innerHTML = '<span class="result">' + qrCodeMessage + '</span>';
-    }
-
-    function onScanError(errorMessage) {
-        // Handle error jika diperlukan
-    }
-
-    var html5QrcodeScanner = new Html5QrcodeScanner(
-        "reader", {
-            fps: 10,
-            qrbox: 250
-        });
-
-    function onBarcodeScan(barcodeMessage) {
-        document.getElementById('barcode').value = barcodeMessage;
-    }
-
-    // Panggil render saat halaman dimuat ulang
-    window.addEventListener('load', function() {
-        html5QrcodeScanner.render(onScanSuccess, onScanError);
+<script>
+    $(document).ready(function() {
+        // Mengatur event handler atau melakukan manipulasi DOM di sini
+        $("#paidTransfer").hide();
+        $("#paidTunai").hide();
     });
-</script> -->
+    var scale = 1; // Inisialisasi skala gambar
 
-<script type="text/javascript">
+    function previewImage(event) {
+        var input = event.target;
+        var reader = new FileReader();
+        reader.onload = function() {
+            var imgElement = document.getElementById('preview');
+            imgElement.src = reader.result;
+            imgElement.style.display = 'block'; // Menampilkan gambar yang dipilih
+            scale = 1; // Setel ulang skala ketika gambar baru dimuat
+            imgElement.style.transform = 'scale(' + scale + ')'; // Setel skala gambar
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+
+    function zoomIn() {
+        var imgElement = document.getElementById('preview');
+        scale += 0.1; // Menambahkan skala sebesar 0.1
+        imgElement.style.transform = 'scale(' + scale + ')'; // Setel skala gambar
+    }
+
+    function zoomOut() {
+        var imgElement = document.getElementById('preview');
+        scale -= 0.1; // Mengurangi skala sebesar 0.1
+        if (scale < 0.1) {
+            scale = 0.1; // Batasi skala minimum
+        }
+        imgElement.style.transform = 'scale(' + scale + ')'; // Setel skala gambar
+    }
+
+    function paidTypeJs(type) {
+        // alert(type)
+        if (type == "Transfer") {
+            $("#paidTransfer").show();
+            $("#paidTunai").hide();
+        } else if (type == "Tunai") {
+            $("#paidTransfer").hide();
+            $("#paidTunai").show();
+        } else {
+            $("#paidTransfer").hide();
+            $("#paidTunai").hide();
+        }
+    }
+
+    function validateFile(event) {
+        var fileInput = event.target;
+        var filePath = fileInput.value;
+        var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i; // Ekstensi file yang diperbolehkan
+
+        if (!allowedExtensions.exec(filePath)) {
+            // Jika ekstensi file tidak sesuai dengan yang diperbolehkan
+            alert('Hanya diperbolehkan file dengan ekstensi JPG, JPEG, atau PNG.');
+            fileInput.value = ''; // Menghapus nilai input
+            document.getElementById('preview').src = ''; // Menghapus pratinjau gambar
+        } else {
+            // Jika ekstensi file sesuai dengan yang diperbolehkan
+            previewImage(event); // Menampilkan pratinjau gambar
+        }
+    }
+</script>
+
+
+<!-- <script type="text/javascript">
     var isScanned = false; // Variabel penanda apakah sudah berhasil memindai atau belum
 
     function onScanSuccess(qrCodeMessage) {
@@ -336,4 +354,4 @@ $no = 1;
     window.addEventListener('load', function() {
         html5QrcodeScanner.render(onScanSuccess, onScanError);
     });
-</script>
+</script> -->
