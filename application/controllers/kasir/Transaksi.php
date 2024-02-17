@@ -49,23 +49,28 @@ class Transaksi extends MY_Controller
         $this->template->load('template', 'kasir/transaksi/edit', $data);
     }
 
-    public function inputBarangTemp($id, $productName, $price, $stock)
+    public function inputBarangTemp($id, $productName, $price)
     {
         $productName_ = str_replace('%20', ' ', $productName);
+        $query = $this->db->get_where('tbl_penjualan', ['Nama_Barang' => $productName_, 'ID_Transaksi' => $id]);
+        if (!empty($query->result())) {
+            echo json_encode(false);
+        } else {
 
+            $dataInsert = [
+                'ID_Transaksi'              => $id,
+                'Nama_Barang'               => $productName_,
+                'Harga_Barang'              => $price,
+                'Jumlah_Barang'             => 1,
+                'Jumlah_Transaksi_Barang'   => 1 * $price,
+                'Created_By'                => $this->userId
+            ];
 
-        $dataInsert = [
-            'ID_Transaksi'              => $id,
-            'Nama_Barang'               => $productName_,
-            'Harga_Barang'              => $price,
-            'Jumlah_Barang'             => 1,
-            'Jumlah_Transaksi_Barang'   => 1 * $price,
-            'Created_By'                => $this->userId
-        ];
-
-        $this->db->insert('tbl_penjualan', $dataInsert);
-        $this->session->set_flashdata('msg', 'Berhasil menambahkan ke keranjang!');
-        redirect('kasir/transaksi/inputBelanja/' . $id);
+            $this->db->insert('tbl_penjualan', $dataInsert);
+            echo json_encode(true);
+        }
+        // $this->session->set_flashdata('msg', 'Berhasil menambahkan ke keranjang!');
+        // redirect('kasir/transaksi/inputBelanja/' . $id);
     }
 
     public function hapusBarangTemp($id_penjualan, $id)
@@ -184,5 +189,11 @@ class Transaksi extends MY_Controller
         $this->form_validation->set_rules('stock', 'Stok', 'trim|required|numeric', [
             'required' => 'Stok wajib diisi!'
         ]);
+    }
+
+    public function cariDetailBarang($barcode_id)
+    {
+        $query = $this->db->get_where('product', ['barcode_id' => $barcode_id])->row();
+        echo json_encode($query);
     }
 }

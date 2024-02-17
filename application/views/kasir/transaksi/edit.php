@@ -1,3 +1,15 @@
+<script src="https://youthsforum.com/wp-content/uploads/2021/05/html5-qrcode.min_.js"></script>
+<style>
+    .result {
+        background-color: green;
+        color: #fff;
+        padding: 20px;
+    }
+
+    .row {
+        display: flex;
+    }
+</style>
 <?php
 $no = 1;
 ?>
@@ -32,7 +44,23 @@ $no = 1;
             </div>
 
             <div class="panel-body">
-                <div class="row">
+                <?= form_open('kasir/transaksi/inputBarangTemp/' . $id) ?>
+                <!-- <div class="form-group">
+                    <div id="reader"></div>
+
+                </div> -->
+
+                <div class="form-group">
+                    <h4>Masukan Kode Barcode / Scan</h4>
+                    <input type="text" class="form-control" id="barcode" onchange="cariDetailBarang('<?= $id ?>',this.value)">
+                </div>
+
+                <?= form_close() ?>
+
+
+
+
+                <!-- <div class="row">
                     <?php
                     foreach ($barangJual->result() as $bj) { ?>
                         <div class="col-md-2">
@@ -47,7 +75,7 @@ $no = 1;
                             <hr>
                         </div>
                     <?php } ?>
-                </div>
+                </div> -->
                 <!-- <?= form_open('kasir/transaksi/inputBarangTemp/' . $id) ?>
                 <div class="form-group">
                     <label for="">Barang :</label>
@@ -65,6 +93,10 @@ $no = 1;
             </div>
         </div>
     </div>
+
+    <script>
+
+    </script>
 
     <div class="col-md-12">
         <div class="panel panel-inverse">
@@ -158,6 +190,39 @@ $no = 1;
         window.location.reload();
     }
 
+    function cariDetailBarang(id, barcode_id) {
+        $.ajax({
+            url: "<?= site_url('kasir/transaksi/cariDetailBarang/') ?>" + barcode_id,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data) {
+                if (data == null) {
+                    alert('Data tidak ditemukan!')
+                    $("#barcode").val("")
+                    $("#product_name").val("")
+                    $("#price").val("")
+                    $("#stock").val("")
+                } else {
+
+                    $.ajax({
+                        url: "<?= site_url('kasir/transaksi/inputBarangTemp/') ?>" + id + "/" + data.product_name + "/" + data.price,
+                        type: "GET",
+                        dataType: "JSON",
+                        success: function(data) {
+                            console.log(data);
+                            if (data == false) {
+                                alert('Barang sudah pernah di input!')
+                                $("#barcode").val("")
+                            } else {
+                                reload_page();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+
     function kalkulasi(val, idPenjualan, id) {
         $.ajax({
             url: "<?= site_url('kasir/transaksi/kalkulasi/') ?>" + id + "/" + idPenjualan + "/" + val,
@@ -175,4 +240,100 @@ $no = 1;
             }
         });
     }
+</script>
+
+<!-- <script type="text/javascript">
+    function onScanSuccess(qrCodeMessage) {
+        // $("#barcode").val(qrCodeMessage)
+
+        document.getElementById('barcode').value = qrCodeMessage;
+        document.getElementById('result').innerHTML = '<span class="result">' + qrCodeMessage + '</span>';
+    }
+
+    function onScanError(errorMessage) {
+        //handle scan error
+    }
+
+    var html5QrcodeScanner = new Html5QrcodeScanner(
+        "reader", {
+            fps: 10,
+            qrbox: 250
+        });
+    html5QrcodeScanner.render(onScanSuccess, onScanError);
+
+    // Tambahkan fungsi untuk menangani pemindaian barcode
+    function onBarcodeScan(barcodeMessage) {
+        document.getElementById('barcode').value = barcodeMessage;
+        // document.getElementById('result').innerHTML = '<span class="result">' + barcodeMessage + '</span>';
+    }
+
+    // Mulai pemindaian barcode
+    var html5BarcodeScanner = new Html5QrcodeScanner(
+        "reader", {
+            fps: 10,
+            qrbox: 250
+        });
+    html5BarcodeScanner.render(onBarcodeScan, onScanError);
+</script> -->
+
+<!-- <script type="text/javascript">
+    function onScanSuccess(qrCodeMessage) {
+        document.getElementById('barcode').value = qrCodeMessage;
+        $("#barcode").focus();
+        document.getElementById('result').innerHTML = '<span class="result">' + qrCodeMessage + '</span>';
+    }
+
+    function onScanError(errorMessage) {
+        // Handle error jika diperlukan
+    }
+
+    var html5QrcodeScanner = new Html5QrcodeScanner(
+        "reader", {
+            fps: 10,
+            qrbox: 250
+        });
+
+    function onBarcodeScan(barcodeMessage) {
+        document.getElementById('barcode').value = barcodeMessage;
+    }
+
+    // Panggil render saat halaman dimuat ulang
+    window.addEventListener('load', function() {
+        html5QrcodeScanner.render(onScanSuccess, onScanError);
+    });
+</script> -->
+
+<script type="text/javascript">
+    var isScanned = false; // Variabel penanda apakah sudah berhasil memindai atau belum
+
+    function onScanSuccess(qrCodeMessage) {
+        // if (!isScanned) {
+        // isScanned = true; // Set variabel penanda menjadi true setelah berhasil memindai
+        document.getElementById('barcode').value = qrCodeMessage;
+        // $("#barcode").focus();
+        // document.getElementById('result').innerHTML = '<span class="result">' + qrCodeMessage + '</span>';
+
+        alert('hello');
+
+
+        // setTimeout(function() {
+        //     isScanned = false;
+        // }, 3000);
+        // }
+    }
+
+    function onScanError(errorMessage) {
+        // Handle error jika diperlukan
+    }
+
+    var html5QrcodeScanner = new Html5QrcodeScanner(
+        "reader", {
+            fps: 10,
+            qrbox: 250
+        });
+
+    // Panggil render saat halaman dimuat ulang
+    window.addEventListener('load', function() {
+        html5QrcodeScanner.render(onScanSuccess, onScanError);
+    });
 </script>
