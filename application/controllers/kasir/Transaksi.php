@@ -27,6 +27,7 @@ class Transaksi extends MY_Controller
     {
 
         $dataInsert = [
+            'Nomor_Invoice'     => $this->generateNomorInvoice(),
             'Created_By'        => $this->userId
         ];
 
@@ -34,6 +35,17 @@ class Transaksi extends MY_Controller
         $id = $this->db->insert_id();
 
         redirect('kasir/transaksi/inputBelanja/' . $id);
+    }
+
+    public function generateNomorInvoice()
+    {
+        $lastInvoiceNumber = $this->db->select('Nomor_Invoice')->order_by('ID_Transaksi', 'DESC')->limit(1)->get('tbl_transaksi')->row('Nomor_Invoice');
+
+        $lastInvoiceSequence = intval(substr($lastInvoiceNumber, 5));
+
+        $newInvoiceNumber = 'TRINV' . str_pad($lastInvoiceSequence + 1, 4, '0', STR_PAD_LEFT);
+
+        return $newInvoiceNumber;
     }
 
     public function inputBelanja($id)
@@ -181,13 +193,15 @@ class Transaksi extends MY_Controller
         $no   = $_POST['start'];
         foreach ($list as $field) {
             $is_paid = ($field->Is_Paid == 0) ? '<p class="badge badge-danger">Belum Bayar</p>' : '<p class="badge badge-success">Sudah Bayar</p>';
+            $is_paid2 = ($field->Is_Paid == 0) ? "<a href='" . site_url('kasir/transaksi/inputBelanja/' . $field->ID_Transaksi) . "' class='btn btn-warning btn-icon'><i class='fa fa-pen'></i></a>" : '';
             $no++;
             $row = array();
+
             $row[] = $no;
-            $row[] = $field->ID_Transaksi;
+            $row[] = $field->Nomor_Invoice;
             $row[] = $is_paid;
             $row[] = $field->Created_Date;
-            $row[] = "<a href='" . site_url('kasir/transaksi/inputBelanja/' . $field->ID_Transaksi) . "' class='btn btn-warning btn-icon'><i class='fa fa-pen'></i></a>";
+            $row[] = $is_paid2;
 
             $data[] = $row;
         }

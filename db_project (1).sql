@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 14, 2024 at 01:49 PM
+-- Generation Time: Feb 18, 2024 at 12:27 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 7.4.33
 
@@ -118,6 +118,15 @@ CREATE TABLE `tbl_penjualan` (
   `Created_By` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Dumping data for table `tbl_penjualan`
+--
+
+INSERT INTO `tbl_penjualan` (`ID_Penjualan`, `ID_Transaksi`, `Nama_Barang`, `Harga_Barang`, `Jumlah_Barang`, `Jumlah_Transaksi_Barang`, `Created_Date`, `Created_By`) VALUES
+(1, 2, 'Laptop Monitor', 300000, 1, 300000, '2024-02-18 14:48:57', '1'),
+(2, 2, 'Hp Advan', 2000000, 1, 2000000, '2024-02-18 14:49:06', '1'),
+(3, 1, 'Laptop Monitor', 300000, 1, 300000, '2024-02-18 17:06:31', '1');
+
 -- --------------------------------------------------------
 
 --
@@ -126,9 +135,12 @@ CREATE TABLE `tbl_penjualan` (
 
 CREATE TABLE `tbl_transaksi` (
   `ID_Transaksi` int(11) NOT NULL,
+  `Nomor_Invoice` varchar(255) NOT NULL,
   `Is_Paid` int(11) DEFAULT 0,
   `Bill` int(11) NOT NULL DEFAULT 0,
   `Paid` int(11) NOT NULL DEFAULT 0,
+  `Paid_Type` varchar(100) DEFAULT NULL,
+  `Bukti_Transfer` varchar(255) DEFAULT NULL,
   `Created_Date` datetime NOT NULL DEFAULT current_timestamp(),
   `Created_By` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -137,9 +149,9 @@ CREATE TABLE `tbl_transaksi` (
 -- Dumping data for table `tbl_transaksi`
 --
 
-INSERT INTO `tbl_transaksi` (`ID_Transaksi`, `Is_Paid`, `Bill`, `Paid`, `Created_Date`, `Created_By`) VALUES
-(1, 0, 0, 0, '2024-02-14 19:04:20', '1'),
-(2, 0, 0, 0, '2024-02-14 19:05:52', '1');
+INSERT INTO `tbl_transaksi` (`ID_Transaksi`, `Nomor_Invoice`, `Is_Paid`, `Bill`, `Paid`, `Paid_Type`, `Bukti_Transfer`, `Created_Date`, `Created_By`) VALUES
+(1, 'TRINV0001', 1, 300000, 300000, 'Transfer', 'bukti_transfer_1708250799.png', '2024-02-18 14:48:25', '1'),
+(2, 'TRINV0002', 1, 2300000, 2400000, 'Tunai', NULL, '2024-02-18 14:48:46', '1');
 
 -- --------------------------------------------------------
 
@@ -209,7 +221,9 @@ INSERT INTO `user_logs` (`log_id`, `username`, `message`, `action`, `from_url`, 
 (15, 'admin1', 'login sukses', 'login', 'http://localhost', '::1', '', '2024-02-04 01:29:32'),
 (16, 'admin1', 'logout sukses', 'logout', 'http://localhost', '::1', '', '2024-02-04 01:57:37'),
 (17, 'admin1', 'login sukses', 'login', 'http://localhost', '::1', '', '2024-02-04 01:57:42'),
-(18, 'admin1', 'login sukses', 'login', 'http://localhost', '::1', '', '2024-02-14 10:46:57');
+(18, 'admin1', 'login sukses', 'login', 'http://localhost', '::1', '', '2024-02-14 10:46:57'),
+(19, 'admin1', 'login sukses', 'login', 'http://localhost', '::1', '', '2024-02-17 17:01:44'),
+(20, 'admin1', 'login sukses', 'login', 'http://localhost', '::1', '', '2024-02-18 07:29:23');
 
 --
 -- Indexes for dumped tables
@@ -283,7 +297,7 @@ ALTER TABLE `supliers`
 -- AUTO_INCREMENT for table `tbl_penjualan`
 --
 ALTER TABLE `tbl_penjualan`
-  MODIFY `ID_Penjualan` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_Penjualan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_transaksi`
@@ -301,7 +315,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_logs`
 --
 ALTER TABLE `user_logs`
-  MODIFY `log_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `log_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

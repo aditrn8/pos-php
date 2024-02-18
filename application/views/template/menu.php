@@ -34,6 +34,17 @@
         </ul>
     </li>
 
+    <li class="has-sub">
+        <a href="javascript:;">
+            <b class="caret"></b>
+            <i class="fas fa-file-excel"></i>
+            <span>Report</span>
+        </a>
+        <ul class="sub-menu">
+            <li><a href="<?php echo site_url(); ?>report/laporan_penjualan">Laporan Penjualan</a></li>
+            <li><a href="<?php echo site_url(); ?>report/laporan_penjualan/grafik">Grafik</a></li>
+        </ul>
+    </li>
 
     <li>
         <a href="<?php echo base_url(); ?>logout">
