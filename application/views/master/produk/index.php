@@ -29,7 +29,7 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Kode Produk + Barcode</th>
+                                <th>Kode Produk + QR Code</th>
                                 <th>Nama Produk</th>
                                 <th>Harga</th>
                                 <th>Stok</th>

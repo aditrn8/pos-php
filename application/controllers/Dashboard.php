@@ -18,6 +18,14 @@ class Dashboard extends MY_Controller
         $this->template->set('title', 'Dashboard');
         $this->template->load('template', 'dashboard');
     }
+
+    function grafik()
+    {
+        $data['query'] = $this->db->query('SELECT Period_Month as BulanPembayaran, SUM(Bill) as jumlahPembayaran FROM `tbl_transaksi` where Is_Paid = 1 GROUP BY Period_Month');
+
+        $this->template->set('title', 'Dashboard');
+        $this->template->load('template', 'dashboard/grafik', $data);
+    }
 }
 
 /* End of file home.php */

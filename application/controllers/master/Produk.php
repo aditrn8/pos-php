@@ -6,7 +6,7 @@ class Produk extends MY_Controller
     {
         parent::__construct();
         $this->load->helper(array('form', 'url', 'html', 'file'));
-        $this->load->library(array('template', 'form_validation', 'unit_test'));
+        $this->load->library(array('template', 'form_validation', 'unit_test', 'Ciqrcode'));
         $this->load->model('master/Produk_model', 'pm');
         date_default_timezone_set('Asia/Jakarta');
 
@@ -23,6 +23,17 @@ class Produk extends MY_Controller
         $this->template->load('template', 'master/produk/index', $data);
     }
 
+    public function generateNomorProduct()
+    {
+        $lastNp = $this->db->select('barcode_id')->order_by('id', 'DESC')->limit(1)->get('product')->row('barcode_id');
+
+        $lastNp = intval(substr($lastNp, 3));
+
+        $newNp = 'BRG' . str_pad($lastNp + 1, 4, '0', STR_PAD_LEFT);
+
+        return $newNp;
+    }
+
     public function tambahProduk()
     {
         $this->validationProduk();
@@ -37,7 +48,7 @@ class Produk extends MY_Controller
                 $namaProduk     = trim(htmlspecialchars($this->input->post('product_name')));
                 $hargaProduk    = trim(htmlspecialchars($this->input->post('price')));
                 $stokProduk     = trim(htmlspecialchars($this->input->post('stock')));
-                $barcodeId      = $this->generate_random_string();
+                $barcodeId      = $this->generateNomorProduct();
 
                 $dataInsert = [
                     'product_name'      => $namaProduk,
@@ -118,8 +129,9 @@ class Produk extends MY_Controller
         foreach ($list as $field) {
             $no++;
             $row = array();
+            $url = site_url('master/produk/generateQr/' . $field->barcode_id);
             $row[] = $no;
-            $row[] = '<img src="data:image/png;base64,' . base64_encode($generator->getBarcode($field->barcode_id, $generator::TYPE_CODE_128)) . '"> <br> <p>' . $field->barcode_id . '</p>';
+            $row[] = '<img src="' . $url . '"> <br> <p>' . $field->barcode_id . '</p>';
             $row[] = $field->product_name;
             $row[] = "Rp. " . number_format($field->price, 0, '.', '.');
             $row[] = $field->stock;
@@ -192,5 +204,16 @@ class Produk extends MY_Controller
     {
         $generator = new Picqer\Barcode\BarcodeGeneratorHTML();
         echo $generator->getBarcode('081231723897', $generator::TYPE_CODE_128);
+    }
+
+    function generateQr($string)
+    {
+        QRCode::png(
+            $string,
+            $outfile = false,
+            $level = QR_ECLEVEL_H,
+            $size = 5,
+            $margin = 2
+        );
     }
 }

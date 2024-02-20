@@ -28,13 +28,35 @@ class Transaksi extends MY_Controller
 
         $dataInsert = [
             'Nomor_Invoice'     => $this->generateNomorInvoice(),
-            'Created_By'        => $this->userId
+            'Created_By'        => $this->userId,
+            'Period_Month'      => $this->bulanBahasa(date('n')),
+            'Period_Year'       => date('Y')
         ];
 
         $this->db->insert('tbl_transaksi', $dataInsert);
         $id = $this->db->insert_id();
 
         redirect('kasir/transaksi/inputBelanja/' . $id);
+    }
+
+    function bulanBahasa($bulan)
+    {
+        $nama_bulan = array(
+            1 => "Januari",
+            2 => "Februari",
+            3 => "Maret",
+            4 => "April",
+            5 => "Mei",
+            6 => "Juni",
+            7 => "Juli",
+            8 => "Agustus",
+            9 => "September",
+            10 => "Oktober",
+            11 => "November",
+            12 => "Desember"
+        );
+
+        return $nama_bulan[$bulan];
     }
 
     public function generateNomorInvoice()

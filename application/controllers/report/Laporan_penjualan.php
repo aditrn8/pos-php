@@ -126,16 +126,9 @@ class Laporan_penjualan extends MY_Controller
 
     function grafik()
     {
-        $year = date('Y');
-        $month = date('m');
-        // if ($this->input->post('submit')) {
-        //     $year = $this->input->post('year');
-        //     $month = $this->input->post('month');
-        // }
-        $where = "YEAR(Created_Date) = $year AND MONTH(Created_Date) = $month";
-        $data['title'] = 'Grafik Penjualan';
-        $data['chartData'] = $this->db->select('*')->from('tbl_transaksi')->where('Is_Paid', 1)->where($where)->get()->result();
+        $data['query'] = $this->db->query('SELECT Period_Month as BulanPembayaran, SUM(Bill) as jumlahPembayaran FROM `tbl_transaksi` where Is_Paid = 1 GROUP BY Period_Month');
 
+        $this->template->set('title', 'Laporan Penjualan Grafik');
         $this->template->load('template', 'report/grafik', $data);
     }
 }

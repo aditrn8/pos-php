@@ -1,25 +1,27 @@
-<ol class="breadcrumb pull-right">
-    <li class="breadcrumb-item"><a href="<?= base_url('') ?>">Dashboard</a></li>
-    <li class="breadcrumb-item"><a>Grafik Penjualan</a></li>
-</ol>
-
-<h1 class="page-header">
-
-    Grafik Penjualan
-
-</h1>
-
-
-
-<div class="row">
-    <div class="col-lg-12">
-        <div class="panel panel-inverse">
-            <div class="panel-heading">
-                <h4 class="panel-title">Laporan Penjualan</h4>
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Dashboard</h1>
             </div>
-            <div class="panel-body">
-                <div class="table-responsive">
-                    <canvas id="barChart"></canvas>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <center><i class="fa fa-bell fa-fw"></i> Selamat datang, <?php echo $this->session->userdata('name'); ?></center>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-inverse">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Data Produk</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <canvas id="barChart"></canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,4 +1,5 @@
 <script src="https://youthsforum.com/wp-content/uploads/2021/05/html5-qrcode.min_.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/quagga/dist/quagga.min.js"></script>
 <style>
     .result {
         background-color: green;
@@ -8,6 +9,18 @@
 
     .row {
         display: flex;
+    }
+
+    #previeww {
+        align: center;
+        width: 50%;
+        /* Lebar video 100% dari container */
+        height: auto;
+        /* Tinggi video disesuaikan agar proporsional */
+        max-width: 100%;
+        /* Batas maksimum lebar video */
+        display: block;
+        /* Pastikan video ditampilkan sebagai blok */
     }
 </style>
 <?php
@@ -40,56 +53,26 @@ $no = 1;
     <div class="col-md-12">
         <div class="panel panel-inverse">
             <div class="panel-heading">
-                <h4 class="panel-title">List Barang</h4>
+                <h4 class="panel-title">Scan QR Code</h4>
             </div>
 
             <div class="panel-body">
                 <?= form_open('kasir/transaksi/inputBarangTemp/' . $id) ?>
-                <!-- <div class="form-group">
-                    <div id="reader"></div>
 
-                </div> -->
 
                 <div class="form-group">
-                    <h4>Masukan Kode Barcode / Scan</h4>
+                    <h4>Masukan Kode QR Code / Scan</h4>
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <video id="previeww"></video>
+                        </div>
+                    </div>
+
                     <input type="text" class="form-control" id="barcode" onchange="cariDetailBarang('<?= $id ?>',this.value)">
                 </div>
 
                 <?= form_close() ?>
-
-
-
-
-                <!-- <div class="row">
-                    <?php
-                    foreach ($barangJual->result() as $bj) { ?>
-                        <div class="col-md-2">
-                            <div class="card">
-                                <img class="card-img-top" src="<?= base_url('upload/4b18d737f6393e25e15df337c8709b4f.png') ?>" alt="Card image cap">
-                                <div class="card-body">
-                                    <h5 class="card-title"><?= $bj->product_name ?></h5>
-                                    <p class="card-text">Rp. <?= number_format($bj->price, 0, '.', '.') ?></p>
-                                    <a href="<?= site_url('kasir/transaksi/inputBarangTemp/' . $id . '/' . $bj->product_name . '/' . $bj->price . '/' . $bj->stock) ?>" class="btn btn-success">Tambah ke keranjang <i class="fas fa-shopping-cart"></i></a>
-                                </div>
-                            </div>
-                            <hr>
-                        </div>
-                    <?php } ?>
-                </div> -->
-                <!-- <?= form_open('kasir/transaksi/inputBarangTemp/' . $id) ?>
-                <div class="form-group">
-                    <label for="">Barang :</label>
-                    <select name="Barang" class="form-control" required>
-                        <option value="">-- Pilih --</option>
-                        <?php foreach ($barangJual->result() as $bj) : ?>
-                            <option value="<?= $bj->product_name . '|' . $bj->price . '|' . $bj->stock ?>"><?= $bj->product_name . ' - Rp.' . number_format($bj->price, 0, '.', '.') ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                    <br>
-                    <button type="submit" class="btn btn-success btn-block">Tambah ke keranjang <i class="fa fa-plus"></i></button>
-                </div>
-
-                <?= form_close() ?> -->
             </div>
         </div>
     </div>
@@ -196,6 +179,10 @@ $no = 1;
     <?php endif; ?>
 </div>
 
+<script src="<?= site_url() ?>/assets/instascan/instascan.min.js"></script>
+
+
+
 <script>
     function reload_page() {
         window.location.reload();
@@ -255,11 +242,10 @@ $no = 1;
 
 <script>
     $(document).ready(function() {
-        // Mengatur event handler atau melakukan manipulasi DOM di sini
         $("#paidTransfer").hide();
         $("#paidTunai").hide();
     });
-    var scale = 1; // Inisialisasi skala gambar
+    var scale = 1;
 
     function previewImage(event) {
         var input = event.target;
@@ -267,26 +253,26 @@ $no = 1;
         reader.onload = function() {
             var imgElement = document.getElementById('preview');
             imgElement.src = reader.result;
-            imgElement.style.display = 'block'; // Menampilkan gambar yang dipilih
-            scale = 1; // Setel ulang skala ketika gambar baru dimuat
-            imgElement.style.transform = 'scale(' + scale + ')'; // Setel skala gambar
+            imgElement.style.display = 'block';
+            scale = 1;
+            imgElement.style.transform = 'scale(' + scale + ')';
         }
         reader.readAsDataURL(input.files[0]);
     }
 
     function zoomIn() {
         var imgElement = document.getElementById('preview');
-        scale += 0.1; // Menambahkan skala sebesar 0.1
-        imgElement.style.transform = 'scale(' + scale + ')'; // Setel skala gambar
+        scale += 0.1;
+        imgElement.style.transform = 'scale(' + scale + ')';
     }
 
     function zoomOut() {
         var imgElement = document.getElementById('preview');
-        scale -= 0.1; // Mengurangi skala sebesar 0.1
+        scale -= 0.1;
         if (scale < 0.1) {
-            scale = 0.1; // Batasi skala minimum
+            scale = 0.1;
         }
-        imgElement.style.transform = 'scale(' + scale + ')'; // Setel skala gambar
+        imgElement.style.transform = 'scale(' + scale + ')';
     }
 
     function paidTypeJs(type) {
@@ -314,44 +300,63 @@ $no = 1;
             fileInput.value = ''; // Menghapus nilai input
             document.getElementById('preview').src = ''; // Menghapus pratinjau gambar
         } else {
-            // Jika ekstensi file sesuai dengan yang diperbolehkan
+
             previewImage(event); // Menampilkan pratinjau gambar
         }
     }
 </script>
 
 
-<!-- <script type="text/javascript">
-    var isScanned = false; // Variabel penanda apakah sudah berhasil memindai atau belum
+<script>
+    let scanner = new Instascan.Scanner({
+        video: document.getElementById('previeww')
+    });
 
-    function onScanSuccess(qrCodeMessage) {
-        // if (!isScanned) {
-        // isScanned = true; // Set variabel penanda menjadi true setelah berhasil memindai
-        document.getElementById('barcode').value = qrCodeMessage;
-        // $("#barcode").focus();
-        // document.getElementById('result').innerHTML = '<span class="result">' + qrCodeMessage + '</span>';
+    scanner.addListener('scan', function(content) {
+        let id = "<?= $id ?>";
+        $.ajax({
+            url: "<?= site_url('kasir/transaksi/cariDetailBarang/') ?>" + content,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data) {
+                if (data == null) {
+                    alert('Data tidak ditemukan!')
+                    $("#barcode").val("")
+                    $("#product_name").val("")
+                    $("#price").val("")
+                    $("#stock").val("")
+                } else {
 
-        alert('hello');
+                    $.ajax({
+                        url: "<?= site_url('kasir/transaksi/inputBarangTemp/') ?>" + id + "/" + data.product_name + "/" + data.price,
+                        type: "GET",
+                        dataType: "JSON",
+                        success: function(data) {
+                            console.log(data);
+                            if (data == false) {
+                                alert('Barang sudah pernah di input!')
+                                $("#barcode").val("")
+                            } else {
+                                reload_page();
+                            }
+                        }
+                    });
+                }
 
-
-        // setTimeout(function() {
-        //     isScanned = false;
-        // }, 3000);
-        // }
-    }
-
-    function onScanError(errorMessage) {
-        // Handle error jika diperlukan
-    }
-
-    var html5QrcodeScanner = new Html5QrcodeScanner(
-        "reader", {
-            fps: 10,
-            qrbox: 250
+                scanner.stop();
+            }
         });
 
-    // Panggil render saat halaman dimuat ulang
-    window.addEventListener('load', function() {
-        html5QrcodeScanner.render(onScanSuccess, onScanError);
     });
-</script> -->
+
+
+    Instascan.Camera.getCameras().then(function(cameras) {
+        if (cameras.length > 0) {
+            scanner.start(cameras[0]);
+        } else {
+            console.error('Tidak ada kamera yang ditemukan.');
+        }
+    }).catch(function(e) {
+        console.error(e);
+    });
+</script>
