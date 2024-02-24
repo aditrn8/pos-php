@@ -1,8 +1,9 @@
-<?php
-header('Content-Type: application/pdf');
-header('Content-Disposition: attachment; filename=transaksi_invoice.pdf');
-?>
+<title>Laporan Transaksi (<?= $q1->Nomor_Invoice ?>)</title>
 <h1 align="center">Detail Laporan Transaksi (<?= $q1->Nomor_Invoice ?>)</h1>
+
+<script>
+		window.print();
+	</script>
 <table align="center" border="1">
     <tr>
         <th>No</th>

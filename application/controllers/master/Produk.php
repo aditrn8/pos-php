@@ -143,7 +143,7 @@ class Produk extends MY_Controller
         $list = $this->pm->dataProduk();
         $data = array();
         $no   = $_POST['start'];
-        $generator = new Picqer\Barcode\BarcodeGeneratorPNG();
+        // $generator = new Picqer\Barcode\BarcodeGeneratorPNG();
         foreach ($list as $field) {
             $no++;
             $row = array();

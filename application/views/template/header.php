@@ -24,7 +24,6 @@
                     <span class=""><?php echo $this->session->userdata('name'); ?></span> <b class="caret"></b>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a href="<?php echo site_url(); ?>admin/reset_password" class="dropdown-item">Ubah Password</a>
                     <a href="<?php echo site_url(); ?>logout" class="dropdown-item">Log Out</a>
                 </div>
             </li>
