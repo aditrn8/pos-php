@@ -17,6 +17,9 @@ class Suplier extends MY_Controller
 
     public function index()
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $data = [
             'title' => 'Master Suplier'
         ];
@@ -25,6 +28,9 @@ class Suplier extends MY_Controller
 
     public function tambahSuplier()
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $this->validationSuplier();
         if ($this->form_validation->run() == FALSE) {
             $data = [
@@ -60,6 +66,9 @@ class Suplier extends MY_Controller
 
     public function editSuplier($id)
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $this->validationSuplier();
         if ($this->form_validation->run() == FALSE) {
             $data = [
@@ -98,6 +107,9 @@ class Suplier extends MY_Controller
 
     public function hapussuplier($id)
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $dataUpdate = [
             'is_deleted'    => 1,
             'deleted_by'    => $this->userId,
@@ -112,6 +124,9 @@ class Suplier extends MY_Controller
 
     function getDataSuplier()
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $list = $this->sm->dataSuplier();
         $data = array();
         $no   = $_POST['start'];
@@ -164,5 +179,15 @@ class Suplier extends MY_Controller
         $this->form_validation->set_rules('province', 'Provinsi', 'trim|required', [
             'required' => 'Provinsi wajib diisi!'
         ]);
+    }
+
+    function auth()
+    {
+        $role = $this->session->userdata('role');
+        if ($role == "1") {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

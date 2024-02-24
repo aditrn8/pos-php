@@ -17,6 +17,9 @@ class Transaksi extends MY_Controller
 
     public function index()
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $data = [
             'title' => 'Menu Transaksi'
         ];
@@ -25,7 +28,9 @@ class Transaksi extends MY_Controller
 
     public function tambahTransaksi()
     {
-
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $dataInsert = [
             'Nomor_Invoice'     => $this->generateNomorInvoice(),
             'Created_By'        => $this->userId,
@@ -72,6 +77,9 @@ class Transaksi extends MY_Controller
 
     public function inputBelanja($id)
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $data = [
             'id'            => $id,
             'title'         => 'Input Belanja',
@@ -85,6 +93,9 @@ class Transaksi extends MY_Controller
 
     public function inputBarangTemp($id, $productName, $price)
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $productName_ = str_replace('%20', ' ', $productName);
         $query = $this->db->get_where('tbl_penjualan', ['Nama_Barang' => $productName_, 'ID_Transaksi' => $id]);
         if (!empty($query->result())) {
@@ -109,6 +120,9 @@ class Transaksi extends MY_Controller
 
     public function hapusBarangTemp($id_penjualan, $id)
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $this->db->delete('tbl_penjualan', ['ID_Penjualan' => $id_penjualan]);
         $this->session->set_flashdata('msg', 'Berhasil menghapus barang!');
         redirect('kasir/transaksi/inputBelanja/' . $id);
@@ -116,6 +130,9 @@ class Transaksi extends MY_Controller
 
     public function hapusProduk($id)
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $dataUpdate = [
             'is_deleted'    => 1,
             'deleted_by'    => $this->userId,
@@ -129,6 +146,9 @@ class Transaksi extends MY_Controller
 
     public function kalkulasi($id, $id_penjualan, $val)
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $hargaDB = $this->db->select('*')->from('tbl_penjualan')->where('ID_Penjualan', $id_penjualan)->get()->row();
         $stock = $this->db->select('stock')->from('product')->where('product_name', $hargaDB->Nama_Barang)->get()->row()->stock;
         if ($val > $stock || $val == 0) {
@@ -151,6 +171,9 @@ class Transaksi extends MY_Controller
 
     public function inputPembayaran($id)
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $bill = $this->input->post('Bill');
         $paid = $this->input->post('Paid');
         $paidType = $this->input->post('paidType');
@@ -207,15 +230,32 @@ class Transaksi extends MY_Controller
         }
     }
 
+    function cetakTransaksi($id)
+    {
+        if ($this->auth() == false) {
+            redirect('');
+        }
+
+        // require_once APPPATH . 'vendor/autoload.php';
+
+
+        $data['q1'] = $this->db->select('Nomor_Invoice,Bill')->from('tbl_transaksi')->where('ID_Transaksi', $id)->get()->row();
+        $data['q2'] = $this->db->get_where('tbl_penjualan', ['ID_Transaksi' => $id]);
+        $this->load->view('kasir/transaksi/cetak', $data);
+    }
+
 
     function getDataTransaksi()
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $list = $this->tm->dataTransaksi();
         $data = array();
         $no   = $_POST['start'];
         foreach ($list as $field) {
             $is_paid = ($field->Is_Paid == 0) ? '<p class="badge badge-danger">Belum Bayar</p>' : '<p class="badge badge-success">Sudah Bayar</p>';
-            $is_paid2 = ($field->Is_Paid == 0) ? "<a href='" . site_url('kasir/transaksi/inputBelanja/' . $field->ID_Transaksi) . "' class='btn btn-warning btn-icon'><i class='fa fa-pen'></i></a>" : '';
+            $is_paid2 = ($field->Is_Paid == 0) ? "<a href='" . site_url('kasir/transaksi/inputBelanja/' . $field->ID_Transaksi) . "' class='btn btn-warning btn-icon'><i class='fa fa-pen'></i></a>" : "<a href='" . site_url('kasir/transaksi/cetakTransaksi/' . $field->ID_Transaksi) . "' class='btn btn-success btn-icon'><i class='fa fa-print'></i></a>";
             $no++;
             $row = array();
 
@@ -236,37 +276,21 @@ class Transaksi extends MY_Controller
         echo json_encode($output);
     }
 
-    private function duplicate_entry()
-    {
-        $id             = $this->input->post('id');
-        $namaProduk     = trim(htmlspecialchars($this->input->post('product_name')));
-        $where          = "(product_name = '$namaProduk' AND is_deleted = 0 AND id != '$id')";
-        $query          = $this->tm->getData('product', $where);
 
-        if ($query->num_rows() > 0) {
-            return '1';
-        } else {
-            return '0';
-        }
-    }
-
-    private function validationProduk()
-    {
-        $this->form_validation->set_rules('product_name', 'Nama Produk', 'trim|required', [
-            'required' => 'Nama Produk wajib diisi!'
-        ]);
-        $this->form_validation->set_rules('price', 'Harga', 'trim|required|numeric', [
-            'required' => 'Harga wajib diisi!',
-            'numeric'  => 'Inputan wajib angka'
-        ]);
-        $this->form_validation->set_rules('stock', 'Stok', 'trim|required|numeric', [
-            'required' => 'Stok wajib diisi!'
-        ]);
-    }
 
     public function cariDetailBarang($barcode_id)
     {
         $query = $this->db->get_where('product', ['barcode_id' => $barcode_id])->row();
         echo json_encode($query);
+    }
+
+    function auth()
+    {
+        $role = $this->session->userdata('role');
+        if ($role == "2") {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

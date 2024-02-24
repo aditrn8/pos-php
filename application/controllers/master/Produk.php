@@ -17,6 +17,9 @@ class Produk extends MY_Controller
 
     public function index()
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $data = [
             'title' => 'Master Produk'
         ];
@@ -25,6 +28,9 @@ class Produk extends MY_Controller
 
     public function generateNomorProduct()
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $lastNp = $this->db->select('barcode_id')->order_by('id', 'DESC')->limit(1)->get('product')->row('barcode_id');
 
         $lastNp = intval(substr($lastNp, 3));
@@ -36,6 +42,9 @@ class Produk extends MY_Controller
 
     public function tambahProduk()
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $this->validationProduk();
         if ($this->form_validation->run() == FALSE) {
             $data = [
@@ -71,6 +80,9 @@ class Produk extends MY_Controller
 
     public function editProduk($id)
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $this->validationProduk();
         if ($this->form_validation->run() == FALSE) {
             $data = [
@@ -108,6 +120,9 @@ class Produk extends MY_Controller
 
     public function hapusProduk($id)
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $dataUpdate = [
             'is_deleted'    => 1,
             'deleted_by'    => $this->userId,
@@ -122,6 +137,9 @@ class Produk extends MY_Controller
 
     function getDataProduk()
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $list = $this->pm->dataProduk();
         $data = array();
         $no   = $_POST['start'];
@@ -150,6 +168,9 @@ class Produk extends MY_Controller
 
     private function duplicate_entry()
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $id             = $this->input->post('id');
         $namaProduk     = trim(htmlspecialchars($this->input->post('product_name')));
         $where          = "(product_name = '$namaProduk' AND is_deleted = 0 AND id != '$id')";
@@ -164,6 +185,7 @@ class Produk extends MY_Controller
 
     private function validationProduk()
     {
+
         $this->form_validation->set_rules('product_name', 'Nama Produk', 'trim|required', [
             'required' => 'Nama Produk wajib diisi!'
         ]);
@@ -215,5 +237,15 @@ class Produk extends MY_Controller
             $size = 5,
             $margin = 2
         );
+    }
+
+    function auth()
+    {
+        $role = $this->session->userdata('role');
+        if ($role == "1") {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -17,6 +17,9 @@ class User extends MY_Controller
 
     public function index()
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $data = [
             'title' => 'Master User'
         ];
@@ -25,6 +28,9 @@ class User extends MY_Controller
 
     public function tambahUser()
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $this->validationUser();
         if ($this->form_validation->run() == FALSE) {
             $data = [
@@ -66,6 +72,9 @@ class User extends MY_Controller
 
     public function editUser($id)
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $this->validationUser();
         if ($this->form_validation->run() == FALSE) {
             $data = [
@@ -108,6 +117,9 @@ class User extends MY_Controller
 
     public function hapusUser($id)
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $dataUpdate = [
             'status'        => 'NON-ACTIVE',
             'updated_by'    => $this->userId,
@@ -122,6 +134,9 @@ class User extends MY_Controller
 
     function getDataUser()
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $list = $this->um->dataUser();
         $data = array();
         $no   = $_POST['start'];
@@ -178,5 +193,15 @@ class User extends MY_Controller
         $this->form_validation->set_rules('role', 'Role', 'required', [
             'required' => 'Role wajib diisi!'
         ]);
+    }
+
+    function auth()
+    {
+        $role = $this->session->userdata('role');
+        if ($role == "1") {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

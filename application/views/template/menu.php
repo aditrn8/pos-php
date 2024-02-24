@@ -1,3 +1,6 @@
+<?php
+$role = $this->session->userdata('role');
+?>
 <ul class="nav">
 
     <li class="nav-header">Navigation</li>
@@ -10,29 +13,35 @@
 
     </li>
 
-    <li class="has-sub">
-        <a href="javascript:;">
-            <b class="caret"></b>
-            <i class="fa fa-folder"></i>
-            <span>Master</span>
-        </a>
-        <ul class="sub-menu">
-            <li><a href="<?php echo site_url(); ?>master/user">User</a></li>
-            <li><a href="<?php echo site_url(); ?>master/suplier">Suplier</a></li>
-            <li><a href="<?php echo site_url(); ?>master/produk">Produk</a></li>
-        </ul>
-    </li>
+    <?php
+    if ($role == "1") {
+        ?>
+        <li class="has-sub">
+            <a href="javascript:;">
+                <b class="caret"></b>
+                <i class="fa fa-folder"></i>
+                <span>Master</span>
+            </a>
+            <ul class="sub-menu">
+                <li><a href="<?php echo site_url(); ?>master/user">User</a></li>
+                <li><a href="<?php echo site_url(); ?>master/suplier">Suplier</a></li>
+                <li><a href="<?php echo site_url(); ?>master/produk">Produk</a></li>
+            </ul>
+        </li>
+    <?php } ?>
 
-    <li class="has-sub">
-        <a href="javascript:;">
-            <b class="caret"></b>
-            <i class="fas fa-shopping-cart"></i>
-            <span>Transaksi</span>
-        </a>
-        <ul class="sub-menu">
-            <li><a href="<?php echo site_url(); ?>kasir/transaksi">Input Transaksi</a></li>
-        </ul>
-    </li>
+    <?php if ($role == "2") { ?>
+        <li class="has-sub">
+            <a href="javascript:;">
+                <b class="caret"></b>
+                <i class="fas fa-shopping-cart"></i>
+                <span>Transaksi</span>
+            </a>
+            <ul class="sub-menu">
+                <li><a href="<?php echo site_url(); ?>kasir/transaksi">Input Transaksi</a></li>
+            </ul>
+        </li>
+    <?php } ?>
 
     <li class="has-sub">
         <a href="javascript:;">
