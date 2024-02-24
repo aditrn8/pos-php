@@ -14,7 +14,7 @@ $role = $this->session->userdata('role');
     </li>
 
     <?php
-    if ($role == "1") {
+    if (in_array($role, [1, 2])) {
         ?>
         <li class="has-sub">
             <a href="javascript:;">
@@ -23,9 +23,13 @@ $role = $this->session->userdata('role');
                 <span>Master</span>
             </a>
             <ul class="sub-menu">
-                <li><a href="<?php echo site_url(); ?>master/user">User</a></li>
-                <li><a href="<?php echo site_url(); ?>master/suplier">Suplier</a></li>
-                <li><a href="<?php echo site_url(); ?>master/produk">Produk</a></li>
+                <?php if ($role == 1) { ?>
+                    <li><a href="<?php echo site_url(); ?>master/user">User</a></li>
+                    <li><a href="<?php echo site_url(); ?>master/suplier">Suplier</a></li>
+                    <li><a href="<?php echo site_url(); ?>master/produk">Produk</a></li>
+                <?php } else { ?>
+                    <li><a href="<?php echo site_url(); ?>master/produk">Produk</a></li>
+                <?php } ?>
             </ul>
         </li>
     <?php } ?>
@@ -43,17 +47,19 @@ $role = $this->session->userdata('role');
         </li>
     <?php } ?>
 
-    <li class="has-sub">
-        <a href="javascript:;">
-            <b class="caret"></b>
-            <i class="fas fa-file-excel"></i>
-            <span>Report</span>
-        </a>
-        <ul class="sub-menu">
-            <li><a href="<?php echo site_url(); ?>report/laporan_penjualan">Laporan Penjualan</a></li>
-            <li><a href="<?php echo site_url(); ?>report/laporan_penjualan/grafik">Grafik</a></li>
-        </ul>
-    </li>
+    <?php if ($role == 1) { ?>
+        <li class="has-sub">
+            <a href="javascript:;">
+                <b class="caret"></b>
+                <i class="fas fa-file-excel"></i>
+                <span>Report</span>
+            </a>
+            <ul class="sub-menu">
+                <li><a href="<?php echo site_url(); ?>report/laporan_penjualan">Laporan Penjualan</a></li>
+                <li><a href="<?php echo site_url(); ?>report/laporan_penjualan/grafik">Grafik</a></li>
+            </ul>
+        </li>
+    <?php } ?>
 
     <li>
         <a href="<?php echo base_url(); ?>logout">

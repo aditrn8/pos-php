@@ -222,12 +222,6 @@ class Produk extends MY_Controller
         return $random_string;
     }
 
-    function generate()
-    {
-        $generator = new Picqer\Barcode\BarcodeGeneratorHTML();
-        echo $generator->getBarcode('081231723897', $generator::TYPE_CODE_128);
-    }
-
     function generateQr($string)
     {
         QRCode::png(
@@ -242,7 +236,7 @@ class Produk extends MY_Controller
     function auth()
     {
         $role = $this->session->userdata('role');
-        if ($role == "1") {
+        if (in_array($role, [1, 2])) {
             return true;
         } else {
             return false;
