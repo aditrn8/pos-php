@@ -24,11 +24,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 |
 */
 
-//$config['base_url']	= "http://".$_SERVER['HTTP_HOST'].str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
+$config['base_url']	= "http://" . $_SERVER['HTTP_HOST'] . str_replace(basename($_SERVER['SCRIPT_NAME']), "", $_SERVER['SCRIPT_NAME']);
 $base_url = (isset($_SERVER['HTTPS']) ? "https://" : "http://") . $_SERVER['HTTP_HOST'];
 $base_url .= str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
 $config['base_url'] = $base_url;
-// $config['base_url'] = "https://localhost/TMS/";
+// $config['base_url'] = "https://f9f3-2a09-bac1-34c0-30-00-245-2e.ngrok-free.app/";
 // $config['base_url'] = isset($_SERVER['HTTP_HOST']) ? 'http://' . $_SERVER['HTTP_HOST'] . '/' : 'http://localhost/';
 
 /*
