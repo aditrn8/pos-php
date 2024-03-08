@@ -153,6 +153,17 @@ class Laporan_penjualan extends MY_Controller
         $this->template->load('template', 'report/grafik', $data);
     }
 
+    function cetakTransaksi($id)
+    {
+        if ($this->auth() == false) {
+            redirect('');
+        }
+
+        $data['q1'] = $this->db->select('Nomor_Invoice,Bill')->from('tbl_transaksi')->where('ID_Transaksi', $id)->get()->row();
+        $data['q2'] = $this->db->get_where('tbl_penjualan', ['ID_Transaksi' => $id]);
+        $this->load->view('report/cetak', $data);
+    }
+
     function auth()
     {
         $role = $this->session->userdata('role');

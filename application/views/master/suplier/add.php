@@ -55,6 +55,12 @@
                     <?= form_error('province', '<small class="text-danger">', '</small>') ?>
                 </div>
 
+                <div class="form-group">
+                    <label for="">Nomor Telepon : <code>*</code></label>
+                    <input type="text" name="phone_number" id="phone_number" class="form-control" value="<?= set_value('phone_number') ?>" autocomplete="off">
+                    <?= form_error('phone_number', '<small class="text-danger">', '</small>') ?>
+                </div>
+
 
                 <button type="submit" class="btn btn-primary">Simpan</button>
                 <a href="<?= site_url('master/suplier') ?>" class="btn btn-danger"><i class="fa fa-arrow-left"></i> Kembali</a>

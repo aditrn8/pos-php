@@ -1,5 +1,6 @@
 <?php
 $no = 0;
+$base_url = base_url() . 'upload/';
 ?>
 <ol class="breadcrumb pull-right">
     <li class="breadcrumb-item"><a href="<?= base_url('') ?>">Dashboard</a></li>
@@ -117,7 +118,10 @@ $no = 0;
                         </thead>
                         <tbody>
                             <?php foreach ($query->result() as $q) {
-                                $no++; ?>
+                                $no++;
+                                $kembalian = $q->Paid - $q->Bill;
+                                $foto = $q->Bukti_Transfer;
+                                ?>
                                 <tr>
                                     <td><?= $no ?></td>
                                     <td><?= $q->Nomor_Invoice ?></td>
@@ -132,7 +136,10 @@ $no = 0;
                                         <?php } ?>
                                     </td>
                                     <td><?= convertDateFormat($q->Created_Date) ?></td>
-                                    <td>Rp. <?= number_format($q->Bill, 0, '.', '.') ?> <button class="btn btn-info btn-icon btn-circle btn-sm lihat-detail-btn" data-toggle="modal" data-target="#detailModal" title="Detail Transaksi" data-id="<?= $q->ID_Transaksi ?>" data-noInvoice="<?= $q->Nomor_Invoice ?>"><i class="fa fa-eye"></i></button></td>
+                                    <td>Rp. <?= number_format($q->Bill, 0, '.', '.') ?>
+                                        <button class="btn btn-info btn-icon btn-circle btn-sm lihat-detail-btn" data-toggle="modal" data-target="#detailModal" title="Detail Transaksi" data-id="<?= $q->ID_Transaksi ?>" data-noInvoice="<?= $q->Nomor_Invoice ?>" data-Kembalian="<?= number_format($kembalian, 0, '.', '.') ?>" data-Foto="<?= $foto ?>" data-tipeBayar="<?= $q->Paid_Type ?>" data-bill="<?= number_format($q->Bill, 0, '.', '.') ?>" data-paid="<?= number_format($q->Paid, 0, '.', '.') ?>"><i class="fa fa-eye"></i></button>
+                                        <a href="<?= site_url('report/laporan_penjualan/cetakTransaksi/' . $q->ID_Transaksi) ?>" class="btn btn-success btn-icon btn-circle btn-sm"><i class="fa fa-print"></i></a>
+                                    </td>
                                 </tr>
                             <?php } ?>
                         </tbody>
@@ -179,6 +186,11 @@ $no = 0;
                         </tr>
                     </tfoot>
                 </table>
+
+                <br>
+                <div id="isiModalBaru">
+
+                </div>
             </div>
         </div>
     </div>
@@ -203,10 +215,27 @@ $no = 0;
 <script>
     $(document).ready(function() {
         $('#table').DataTable();
+        var baseUrl = "<?php echo $base_url; ?>";
 
         $('.lihat-detail-btn').on('click', function() {
             var id_transaksi = $(this).data('id');
             var no_invoice = $(this).data('noinvoice');
+
+            var tipeBayar = $(this).data('tipebayar');
+            var kembalian = $(this).data('kembalian');
+            var harga = $(this).data('bill');
+            var paid = $(this).data('paid');
+            var foto = $(this).data('foto');
+
+            // Mengatur konten modal berdasarkan tipe pembayaran
+            if (tipeBayar === "Tunai") {
+                // $('#detailModal .modal-title').text('Detail Penjualan - Tunai');
+                $('#isiModalBaru').html('<p>Total Transaksi: Rp. ' + paid + ' - Rp. ' + harga + ' = Rp. ' + kembalian + '</p>');
+            } else {
+                // $('#detailModal .modal-title').text('Detail Penjualan - Transfer');
+                // $('#isiModalBaru').html('<img src="' + foto + '" alt="Bukti Transfer" class="img-fluid">');
+                $('#isiModalBaru').html('<p>Bukti Transfer : </p><img src="' + baseUrl + foto + '" alt="Bukti Transfer" class="img-fluid">');
+            }
 
             $('#detailModalLabel b').text(no_invoice);
             $.ajax({
