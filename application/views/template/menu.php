@@ -9,31 +9,11 @@ $role = $this->session->userdata('role');
 			<i class="fa fa-home"></i>
 			<span>Dashboard</span>
 		</a>
-
-	</li>
-
-	<li class="has-sub">
-		<a href="javascript:;">
-			<b class="caret"></b>
-			<i class="fa fa-folder"></i>
-			<span>Master</span>
-		</a>
-		<ul class="sub-menu">
-			<?php
-			if ($role == 1) {
-				?>
-				<li><a href="<?php echo site_url(); ?>master/user">User</a></li>
-				<li><a href="<?php echo site_url(); ?>master/suplier">Suplier</a></li>
-			<?php
-			}
-			?>
-			<li><a href="<?php echo site_url(); ?>master/produk">Produk</a></li>
-		</ul>
 	</li>
 
 	<?php
 	if (in_array($role, [1, 2])) {
-		?>
+	?>
 		<li class="has-sub">
 			<a href="javascript:;">
 				<b class="caret"></b>
@@ -65,19 +45,19 @@ $role = $this->session->userdata('role');
 		</li>
 	<?php } ?>
 
-	<?php if ($role == 1) { ?>
-		<li class="has-sub">
-			<a href="javascript:;">
-				<b class="caret"></b>
-				<i class="fas fa-file-excel"></i>
-				<span>Report</span>
-			</a>
-			<ul class="sub-menu">
-				<li><a href="<?php echo site_url(); ?>report/laporan_penjualan">Laporan Penjualan</a></li>
+	<li class="has-sub">
+		<a href="javascript:;">
+			<b class="caret"></b>
+			<i class="fas fa-file-excel"></i>
+			<span>Report</span>
+		</a>
+		<ul class="sub-menu">
+			<li><a href="<?php echo site_url(); ?>report/laporan_penjualan">Laporan Penjualan</a></li>
+			<?php if ($role == 1) { ?>
 				<li><a href="<?php echo site_url(); ?>report/laporan_penjualan/grafik">Grafik</a></li>
-			</ul>
-		</li>
-	<?php } ?>
+			<?php } ?>
+		</ul>
+	</li>
 
 	</li>
 
