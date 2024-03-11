@@ -33,6 +33,7 @@
                                 <th>Alamat</th>
                                 <th>Kota</th>
                                 <th>Provinsi</th>
+                                <th>No Telepon</th>
                                 <th>&nbsp;</th>
                             </tr>
                         </thead>

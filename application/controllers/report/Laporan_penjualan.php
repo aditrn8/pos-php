@@ -17,6 +17,9 @@ class Laporan_penjualan extends MY_Controller
 
     public function index()
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         if ($this->session->userdata('filter')) {
             $this->convertDateFormat($this->session->userdata('tgl1'));
             $this->convertDateFormat($this->session->userdata('tgl2'));
@@ -39,6 +42,9 @@ class Laporan_penjualan extends MY_Controller
 
     function filter1()
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $GDMonth = $this->input->post('GDMonth');
         $GDYear = $this->input->post('GDYear');
 
@@ -53,6 +59,9 @@ class Laporan_penjualan extends MY_Controller
 
     function filter2()
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $date1 = $this->input->post('date1');
         $date2 = $this->input->post('date2');
 
@@ -65,6 +74,9 @@ class Laporan_penjualan extends MY_Controller
 
     function reset_filter()
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $this->session->unset_userdata('filter');
         $this->session->unset_userdata('tgl1');
         $this->session->unset_userdata('tgl2');
@@ -74,6 +86,9 @@ class Laporan_penjualan extends MY_Controller
 
     public function get_data_detail_penjualan()
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $id_transaksi = $this->input->get('id_transaksi');
 
         $data['detail_penjualan'] = $this->db->select('*')->from('tbl_penjualan')->where('ID_Transaksi', $id_transaksi)->get()->result();
@@ -83,6 +98,9 @@ class Laporan_penjualan extends MY_Controller
 
     public function export()
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         if ($this->session->userdata('filter')) {
             $this->convertDateFormat($this->session->userdata('tgl1'));
             $this->convertDateFormat($this->session->userdata('tgl2'));
@@ -126,9 +144,33 @@ class Laporan_penjualan extends MY_Controller
 
     function grafik()
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $data['query'] = $this->db->query('SELECT Period_Month as BulanPembayaran, SUM(Bill) as jumlahPembayaran FROM `tbl_transaksi` where Is_Paid = 1 GROUP BY Period_Month');
 
         $this->template->set('title', 'Laporan Penjualan Grafik');
         $this->template->load('template', 'report/grafik', $data);
+    }
+
+    function cetakTransaksi($id)
+    {
+        if ($this->auth() == false) {
+            redirect('');
+        }
+
+        $data['q1'] = $this->db->select('Nomor_Invoice,Bill')->from('tbl_transaksi')->where('ID_Transaksi', $id)->get()->row();
+        $data['q2'] = $this->db->get_where('tbl_penjualan', ['ID_Transaksi' => $id]);
+        $this->load->view('report/cetak', $data);
+    }
+
+    function auth()
+    {
+        $role = $this->session->userdata('role');
+        if ($role == 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

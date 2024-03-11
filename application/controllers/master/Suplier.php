@@ -17,6 +17,9 @@ class Suplier extends MY_Controller
 
     public function index()
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $data = [
             'title' => 'Master Suplier'
         ];
@@ -25,6 +28,9 @@ class Suplier extends MY_Controller
 
     public function tambahSuplier()
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $this->validationSuplier();
         if ($this->form_validation->run() == FALSE) {
             $data = [
@@ -38,12 +44,14 @@ class Suplier extends MY_Controller
                 $address  = trim(htmlspecialchars($this->input->post('address')));
                 $city     = trim(htmlspecialchars($this->input->post('city')));
                 $province = trim(htmlspecialchars($this->input->post('province')));
+                $phone_number = trim(htmlspecialchars($this->input->post('phone_number')));
 
                 $dataInsert = [
                     'name'          => $name,
                     'address'       => $address,
                     'city'          => $city,
                     'province'      => $province,
+                    'phone_number'      => $phone_number,
                     'created_by'    => $this->userId
                 ];
 
@@ -60,6 +68,9 @@ class Suplier extends MY_Controller
 
     public function editSuplier($id)
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $this->validationSuplier();
         if ($this->form_validation->run() == FALSE) {
             $data = [
@@ -75,12 +86,14 @@ class Suplier extends MY_Controller
                 $address  = trim(htmlspecialchars($this->input->post('address')));
                 $city     = trim(htmlspecialchars($this->input->post('city')));
                 $province = trim(htmlspecialchars($this->input->post('province')));
+                $phone_number = trim(htmlspecialchars($this->input->post('phone_number')));
 
                 $dataUpdate = [
                     'name'          => $name,
                     'address'       => $address,
                     'city'          => $city,
                     'province'      => $province,
+                    'phone_number'      => $phone_number,
                     'updated_by'    => $this->userId,
                     'updated_at'    => $this->dateNow
                 ];
@@ -98,6 +111,9 @@ class Suplier extends MY_Controller
 
     public function hapussuplier($id)
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $dataUpdate = [
             'is_deleted'    => 1,
             'deleted_by'    => $this->userId,
@@ -112,6 +128,9 @@ class Suplier extends MY_Controller
 
     function getDataSuplier()
     {
+        if ($this->auth() == false) {
+            redirect('');
+        }
         $list = $this->sm->dataSuplier();
         $data = array();
         $no   = $_POST['start'];
@@ -123,6 +142,7 @@ class Suplier extends MY_Controller
             $row[] = $field->address;
             $row[] = $field->city;
             $row[] = $field->province;
+            $row[] = $field->phone_number;
             $row[] = "<a href='" . site_url('master/suplier/hapusSuplier/' . $field->id) . "' onclick='return confirm(`Yakin ingin hapus suplier?`)' class='btn btn-danger btn-icon'><i class='fa fa-trash'></i></a> <a href='" . site_url('master/suplier/editSuplier/' . $field->id) . "' class='btn btn-warning btn-icon'><i class='fa fa-pen'></i></a>";
 
             $data[] = $row;
@@ -164,5 +184,18 @@ class Suplier extends MY_Controller
         $this->form_validation->set_rules('province', 'Provinsi', 'trim|required', [
             'required' => 'Provinsi wajib diisi!'
         ]);
+        $this->form_validation->set_rules('phone_number', 'Nomor Telepon', 'trim|required', [
+            'required' => 'Nomor Telepon wajib diisi!'
+        ]);
+    }
+
+    function auth()
+    {
+        $role = $this->session->userdata('role');
+        if ($role == "1") {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

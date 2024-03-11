@@ -3,6 +3,7 @@ $name        = $rowSuplier->name;
 $address     = $rowSuplier->address;
 $city        = $rowSuplier->city;
 $province    = $rowSuplier->province;
+$phone_number    = $rowSuplier->phone_number;
 ?>
 <ol class="breadcrumb pull-right">
     <li class="breadcrumb-item"><a href="<?= base_url('') ?>">Dashboard</a></li>
@@ -59,6 +60,12 @@ $province    = $rowSuplier->province;
                     <label for="">Provinsi : <code>*</code></label>
                     <input type="text" name="province" id="province" class="form-control" value="<?= $province ?>" autocomplete="off">
                     <?= form_error('province', '<small class="text-danger">', '</small>') ?>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Nomor Telepon : <code>*</code></label>
+                    <input type="text" name="phone_number" id="phone_number" class="form-control" value="<?= $phone_number ?>" autocomplete="off">
+                    <?= form_error('phone_number', '<small class="text-danger">', '</small>') ?>
                 </div>
 
 
