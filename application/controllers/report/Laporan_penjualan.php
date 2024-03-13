@@ -167,7 +167,7 @@ class Laporan_penjualan extends MY_Controller
     function auth()
     {
         $role = $this->session->userdata('role');
-        if ($role == 1) {
+        if ($role == 1 || $role == 2) {
             return true;
         } else {
             return false;
