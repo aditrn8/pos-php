@@ -281,6 +281,13 @@ class Transaksi extends MY_Controller
         echo json_encode($query);
     }
 
+    public function cariDetailBarangBySearch($name = null)
+    {
+        $name = str_replace('%20', ' ', $name);
+        $query = $this->db->like('product_name', $name)->get('product')->row();
+        echo json_encode($query);
+    }
+
     function auth()
     {
         $role = $this->session->userdata('role');

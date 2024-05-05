@@ -12,7 +12,6 @@
     }
 
     #previeww {
-        align: center;
         width: 50%;
         /* Lebar video 100% dari container */
         height: auto;
@@ -62,17 +61,21 @@ $no = 1;
 
                 <div class="form-group">
                     <h4>Masukan Kode QR Code / Scan</h4>
-                    <div class="row">
-                        <div class="col-md-12">
-
-                            <video id="previeww"></video>
-                        </div>
+                    <div class="d-flex justify-content-center">
+                        <video id="previeww"></video>
                     </div>
-
-                    <input type="text" class="form-control" id="barcode" onchange="cariDetailBarang('<?= $id ?>',this.value)">
+                    <input type="hidden" class="form-control" id="barcode" onchange="cariDetailBarang('<?= $id ?>',this.value)">
                 </div>
 
                 <?= form_close() ?>
+
+                <div class="form-group">
+                    <label class="control-label" for="">Cari Barang : </label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="cari_barang">
+                        <button class="btn btn-primary" onclick="submitSearch('<?= $id ?>')">Cari</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -221,6 +224,44 @@ $no = 1;
         });
     }
 
+    function cariDetailBarangBySearch(id, p_name) {
+        $.ajax({
+            url: "<?= site_url('kasir/transaksi/cariDetailBarangBySearch/') ?>" + p_name,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data) {
+                console.log("44444444444", data)
+                if (data == null) {
+                    alert('Data tidak ditemukan!')
+                    $("#cari_barang").val("")
+                    $("#product_name").val("")
+                    $("#price").val("")
+                    $("#stock").val("")
+                } else {
+                    $.ajax({
+                        url: "<?= site_url('kasir/transaksi/inputBarangTemp/') ?>" + id + "/" + data.product_name + "/" + data.price,
+                        type: "GET",
+                        dataType: "JSON",
+                        success: function(data) {
+                            console.log(data);
+                            if (data == false) {
+                                alert('Barang sudah pernah di input!')
+                                $("#cari_barang").val("")
+                            } else {
+                                reload_page();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    function submitSearch(id) {
+        var productName = document.getElementById('cari_barang').value;
+        cariDetailBarangBySearch(id, productName);
+    }
+
     function kalkulasi(val, idPenjualan, id) {
         $.ajax({
             url: "<?= site_url('kasir/transaksi/kalkulasi/') ?>" + id + "/" + idPenjualan + "/" + val,
@@ -336,6 +377,7 @@ $no = 1;
                             if (data == false) {
                                 alert('Barang sudah pernah di input!')
                                 $("#barcode").val("")
+                                reload_page();
                             } else {
                                 reload_page();
                             }
