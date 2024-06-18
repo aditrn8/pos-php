@@ -64,7 +64,7 @@ $phone_number    = $rowSuplier->phone_number;
                     <?= form_error('address', '<small class="text-danger">', '</small>') ?>
                 </div>
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="">Kota : <code>*</code></label>
                     <input type="text" name="city" id="city" class="form-control" value="<?= $city ?>" autocomplete="off">
                     <?= form_error('city', '<small class="text-danger">', '</small>') ?>
@@ -74,10 +74,10 @@ $phone_number    = $rowSuplier->phone_number;
                     <label for="">Provinsi : <code>*</code></label>
                     <input type="text" name="province" id="province" class="form-control" value="<?= $province ?>" autocomplete="off">
                     <?= form_error('province', '<small class="text-danger">', '</small>') ?>
-                </div>
+                </div> -->
 
                 <div class="form-group">
-                    <label for="">Nomor Telepon : <code>*</code></label>
+                    <label for="">Nomor Hp : <code>*</code></label>
                     <input type="text" name="phone_number" id="phone_number" class="form-control" value="<?= $phone_number ?>" autocomplete="off">
                     <?= form_error('phone_number', '<small class="text-danger">', '</small>') ?>
                 </div>

@@ -29,13 +29,13 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Nama Supplier</th>
                                 <th>Nama Perusahaan</th>
+                                <th>Nama Supplier</th>
                                 <th>Jenis Supplier</th>
+                                <th>No Hp</th>
                                 <th>Alamat</th>
-                                <th>Kota</th>
-                                <th>Provinsi</th>
-                                <th>No Telepon</th>
+                                <!-- <th>Kota</th>
+                                <th>Provinsi</th> -->
                                 <th>&nbsp;</th>
                             </tr>
                         </thead>

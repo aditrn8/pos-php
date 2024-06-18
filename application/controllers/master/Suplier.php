@@ -146,13 +146,13 @@ class Suplier extends MY_Controller
             $no++;
             $row = array();
             $row[] = $no;
-            $row[] = $field->name;
             $row[] = $field->name_company;
+            $row[] = $field->name;
             $row[] = $field->jenis_supplier;
-            $row[] = $field->address;
-            $row[] = $field->city;
-            $row[] = $field->province;
             $row[] = $field->phone_number;
+            $row[] = $field->address;
+            // $row[] = $field->city;
+            // $row[] = $field->province;
             $row[] = "<a href='" . site_url('master/suplier/hapusSuplier/' . $field->id) . "' onclick='return confirm(`Yakin ingin hapus suplier?`)' class='btn btn-danger btn-icon'><i class='fa fa-trash'></i></a> <a href='" . site_url('master/suplier/editSuplier/' . $field->id) . "' class='btn btn-warning btn-icon'><i class='fa fa-pen'></i></a>";
 
             $data[] = $row;
@@ -185,15 +185,21 @@ class Suplier extends MY_Controller
         $this->form_validation->set_rules('name', 'Nama', 'trim|required', [
             'required' => 'Nama wajib diisi!'
         ]);
+        $this->form_validation->set_rules('name_company', 'Nama Perusahaan', 'trim|required', [
+            'required' => 'Nama Perusahaan wajib diisi!'
+        ]);
+        $this->form_validation->set_rules('jenis_supplier', 'Jenis Supplier', 'trim|required', [
+            'required' => 'Jenis Supplier wajib diisi!'
+        ]);
         $this->form_validation->set_rules('address', 'Alamat', 'trim|required', [
             'required' => 'Alamat wajib diisi!'
         ]);
-        $this->form_validation->set_rules('city', 'Kota', 'trim|required', [
-            'required' => 'Kota wajib diisi!'
-        ]);
-        $this->form_validation->set_rules('province', 'Provinsi', 'trim|required', [
-            'required' => 'Provinsi wajib diisi!'
-        ]);
+        // $this->form_validation->set_rules('city', 'Kota', 'trim|required', [
+        //     'required' => 'Kota wajib diisi!'
+        // ]);
+        // $this->form_validation->set_rules('province', 'Provinsi', 'trim|required', [
+        //     'required' => 'Provinsi wajib diisi!'
+        // ]);
         $this->form_validation->set_rules('phone_number', 'Nomor Telepon', 'trim|required', [
             'required' => 'Nomor Telepon wajib diisi!'
         ]);
