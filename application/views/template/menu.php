@@ -45,19 +45,21 @@ $role = $this->session->userdata('role');
 		</li>
 	<?php } ?>
 
-	<li class="has-sub">
-		<a href="javascript:;">
-			<b class="caret"></b>
-			<i class="fas fa-file-excel"></i>
-			<span>Report</span>
-		</a>
-		<ul class="sub-menu">
-			<li><a href="<?php echo site_url(); ?>report/laporan_penjualan">Laporan Penjualan</a></li>
-			<?php if ($role == 1) { ?>
-				<li><a href="<?php echo site_url(); ?>report/laporan_penjualan/grafik">Grafik</a></li>
-			<?php } ?>
-		</ul>
-	</li>
+	<?php if ($role == 1) { ?>
+		<li class="has-sub">
+			<a href="javascript:;">
+				<b class="caret"></b>
+				<i class="fas fa-file-excel"></i>
+				<span>Report</span>
+			</a>
+			<ul class="sub-menu">
+				<li><a href="<?php echo site_url(); ?>report/laporan_penjualan">Laporan Penjualan</a></li>
+				<?php if ($role == 1) { ?>
+					<li><a href="<?php echo site_url(); ?>report/laporan_penjualan/grafik">Grafik</a></li>
+				<?php } ?>
+			</ul>
+		</li>
+	<?php } ?>
 
 	</li>
 
