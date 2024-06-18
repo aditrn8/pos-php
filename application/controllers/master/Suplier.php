@@ -40,18 +40,22 @@ class Suplier extends MY_Controller
             $this->template->load('template', 'master/suplier/add', $data);
         } else {
             if ($this->duplicate_entry() == 0) {
-                $name     = trim(htmlspecialchars($this->input->post('name')));
-                $address  = trim(htmlspecialchars($this->input->post('address')));
-                $city     = trim(htmlspecialchars($this->input->post('city')));
-                $province = trim(htmlspecialchars($this->input->post('province')));
-                $phone_number = trim(htmlspecialchars($this->input->post('phone_number')));
+                $name           = trim(htmlspecialchars($this->input->post('name')));
+                $name_company   = trim(htmlspecialchars($this->input->post('name_company')));
+                $jenis_supplier   = trim(htmlspecialchars($this->input->post('jenis_supplier')));
+                $address        = trim(htmlspecialchars($this->input->post('address')));
+                $city           = trim(htmlspecialchars($this->input->post('city')));
+                $province       = trim(htmlspecialchars($this->input->post('province')));
+                $phone_number   = trim(htmlspecialchars($this->input->post('phone_number')));
 
                 $dataInsert = [
                     'name'          => $name,
+                    'name_company'  => $name_company,
+                    'jenis_supplier' => $jenis_supplier,
                     'address'       => $address,
                     'city'          => $city,
                     'province'      => $province,
-                    'phone_number'      => $phone_number,
+                    'phone_number'  => $phone_number,
                     'created_by'    => $this->userId
                 ];
 
@@ -139,6 +143,8 @@ class Suplier extends MY_Controller
             $row = array();
             $row[] = $no;
             $row[] = $field->name;
+            $row[] = $field->name_company;
+            $row[] = $field->jenis_supplier;
             $row[] = $field->address;
             $row[] = $field->city;
             $row[] = $field->province;

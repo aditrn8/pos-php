@@ -44,8 +44,8 @@ class Suplier_model extends CI_Model
 
     public function querySuplierDtTb()
     {
-        $column_order = array(null, 'name', 'address', 'city', 'province');
-        $column_search = array('name', 'address', 'city', 'province');
+        $column_order = array(null, 'name', 'name_company', 'jenis_supplier', 'address', 'city', 'province');
+        $column_search = array('name', 'name_company', 'jenis_supplier', 'address', 'city', 'province');
         $order = array('id' => 'DESC');
 
         $this->db->select('*')->from('supliers')->where('is_deleted', 0);

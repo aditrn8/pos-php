@@ -32,10 +32,23 @@
 
                 <input type="hidden" name="id">
                 <div class="form-group">
-                    <label for="">Nama : <code>*</code></label>
+                    <label for="">Nama Supplier : <code>*</code></label>
                     <input type="text" name="name" id="name" class="form-control" value="<?= set_value('name') ?>" autocomplete="off">
                     <?= form_error('name', '<small class="text-danger">', '</small>') ?>
                 </div>
+
+                <div class="form-group">
+                    <label for="">Nama Perusahaan : <code>*</code></label>
+                    <input type="text" name="name_company" id="name_company" class="form-control" value="<?= set_value('name_company') ?>" autocomplete="off">
+                    <?= form_error('name_company', '<small class="text-danger">', '</small>') ?>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Jenis Supplier : <code>*</code></label>
+                    <input type="text" name="jenis_supplier" id="jenis_supplier" class="form-control" value="<?= set_value('jenis_supplier') ?>" autocomplete="off">
+                    <?= form_error('jenis_supplier', '<small class="text-danger">', '</small>') ?>
+                </div>
+
 
                 <div class="form-group">
                     <label for="">Alamat : <code>*</code></label>

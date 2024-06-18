@@ -8,7 +8,7 @@
     <div id="header" class="header navbar-default">
         <!-- begin navbar-header -->
         <div class="navbar-header">
-            <a href="<?php echo base_url(); ?>" class="navbar-brand"><span class="navbar-logo"></span> <b>Project</b></a>
+            <a href="<?php echo base_url(); ?>" class="navbar-brand"><span class="navbar-logo"></span> <b>Satria Nugget</b></a>
             <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>

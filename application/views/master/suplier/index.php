@@ -29,7 +29,9 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Nama</th>
+                                <th>Nama Supplier</th>
+                                <th>Nama Perusahaan</th>
+                                <th>Jenis Supplier</th>
                                 <th>Alamat</th>
                                 <th>Kota</th>
                                 <th>Provinsi</th>
