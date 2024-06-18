@@ -4,12 +4,8 @@
 </ol>
 
 <h1 class="page-header">
-
     Grafik Penjualan
-
 </h1>
-
-
 
 <div class="row">
     <div class="col-lg-12">
@@ -19,7 +15,7 @@
             </div>
             <div class="panel-body">
                 <div class="table-responsive">
-                    <canvas id="barChart"></canvas>
+                    <canvas id="lineChart"></canvas>
                 </div>
             </div>
         </div>
@@ -28,7 +24,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    var ctx = document.getElementById('barChart').getContext('2d');
+    var ctx = document.getElementById('lineChart').getContext('2d');
     var data = {
         labels: [],
         datasets: [{
@@ -36,6 +32,7 @@
             backgroundColor: 'rgba(75, 192, 192, 0.2)',
             borderColor: 'rgba(75, 192, 192, 1)',
             borderWidth: 1,
+            fill: false, // Ensure the area under the line is not filled
             data: []
         }]
     };
@@ -72,7 +69,7 @@
     };
 
     var myChart = new Chart(ctx, {
-        type: 'bar',
+        type: 'line',
         data: data,
         options: options
     });
