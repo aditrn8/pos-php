@@ -6,7 +6,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Project</title>
+    <title>Satria Nugget</title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <meta content="" name="description" />
     <meta content="" name="author" />
@@ -59,7 +59,7 @@
             <!-- begin brand -->
             <div class="login-header">
                 <div class="brand">
-                    <span class="logo"></span> <b>Project</b>
+                    <span class="logo"></span> <b>Satria Nugget</b>
                     <small>Login menggunakan <b style="color: #00acac">Username & Password</b></small>
                 </div>
                 <div class="icon">
