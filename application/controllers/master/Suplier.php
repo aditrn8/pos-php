@@ -87,6 +87,8 @@ class Suplier extends MY_Controller
         } else {
             if ($this->duplicate_entry() == 0) {
                 $name     = trim(htmlspecialchars($this->input->post('name')));
+                $name_company   = trim(htmlspecialchars($this->input->post('name_company')));
+                $jenis_supplier   = trim(htmlspecialchars($this->input->post('jenis_supplier')));
                 $address  = trim(htmlspecialchars($this->input->post('address')));
                 $city     = trim(htmlspecialchars($this->input->post('city')));
                 $province = trim(htmlspecialchars($this->input->post('province')));
@@ -94,6 +96,8 @@ class Suplier extends MY_Controller
 
                 $dataUpdate = [
                     'name'          => $name,
+                    'name_company'  => $name_company,
+                    'jenis_supplier' => $jenis_supplier,
                     'address'       => $address,
                     'city'          => $city,
                     'province'      => $province,

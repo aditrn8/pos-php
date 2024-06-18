@@ -1,5 +1,7 @@
 <?php
 $name        = $rowSuplier->name;
+$name_company    = $rowSuplier->name_company;
+$jenis_supplier  = $rowSuplier->jenis_supplier;
 $address     = $rowSuplier->address;
 $city        = $rowSuplier->city;
 $province    = $rowSuplier->province;
@@ -39,9 +41,21 @@ $phone_number    = $rowSuplier->phone_number;
 
                 <input type="hidden" name="id" value="<?= $id ?>">
                 <div class="form-group">
-                    <label for="">Nama : <code>*</code></label>
+                    <label for="">Nama Supplier : <code>*</code></label>
                     <input type="text" name="name" id="name" class="form-control" value="<?= $name ?>" autocomplete="off">
                     <?= form_error('name', '<small class="text-danger">', '</small>') ?>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Nama Perusahaan : <code>*</code></label>
+                    <input type="text" name="name_company" id="name_company" class="form-control" value="<?= $name_company ?>" autocomplete="off">
+                    <?= form_error('name_company', '<small class="text-danger">', '</small>') ?>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Jenis Supplier : <code>*</code></label>
+                    <input type="text" name="jenis_supplier" id="jenis_supplier" class="form-control" value="<?= $jenis_supplier ?>" autocomplete="off">
+                    <?= form_error('jenis_supplier', '<small class="text-danger">', '</small>') ?>
                 </div>
 
                 <div class="form-group">
