@@ -1,6 +1,11 @@
 <title>Laporan Transaksi (<?= $q1->Nomor_Invoice ?>)</title>
 <h1 align="center">Detail Laporan Transaksi (<?= $q1->Nomor_Invoice ?>)</h1>
 
+<h3 align="center">
+    Toko Satria Nugget
+    Jl Klambir V Ruko Janetti No 4, Medan
+</h3>
+
 <script>
     window.print();
 </script>
