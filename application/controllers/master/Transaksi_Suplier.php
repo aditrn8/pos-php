@@ -8,6 +8,7 @@ class Transaksi_Suplier extends MY_Controller
       $this->load->helper(array('form', 'url', 'html', 'file'));
       $this->load->library(array('template', 'form_validation', 'unit_test'));
       $this->load->model('master/Transaksi_Suplier_model', 'sm');
+      $this->load->model('master/Produk_model', 'pm');
       date_default_timezone_set('Asia/Jakarta');
 
       $this->name     = $this->session->userdata('name');
@@ -59,7 +60,13 @@ class Transaksi_Suplier extends MY_Controller
             'created_by'    => $this->userId
          ];
 
+         $getProduct = $this->pm->getData('product', ['product_name' => $product_name])->row();
+         $dataUpdate = [
+            'stock' => $getProduct->stock + $qty
+         ];
+
          $this->sm->insert('tr_supliers', $dataInsert);
+         $this->pm->update('product', $dataUpdate, ['id' => $getProduct->id]);
 
          $this->session->set_flashdata('msg', 'Berhasil menambahkan Transaksi Suplier!');
          redirect('master/Transaksi_suplier');
@@ -135,7 +142,7 @@ class Transaksi_Suplier extends MY_Controller
          'deleted_at'    => $this->dateNow
       ];
 
-      $this->sm->update('Transaksi_supliers', $dataUpdate, ['id' => $id]);
+      $this->sm->update('tr_supliers', $dataUpdate, ['id' => $id]);
       $this->session->set_flashdata('msg', 'Berhasil menghapus Transaksi_suplier!');
       redirect('master/Transaksi_suplier');
    }
@@ -160,7 +167,7 @@ class Transaksi_Suplier extends MY_Controller
          $row[] = $field->harga;
          $row[] = $field->qty;
          $row[] = $field->total;
-         $row[] = "<a href='" . site_url('master/transaksi_suplier/hapusTransaksi_suplier/' . $field->id) . "' onclick='return confirm(`Yakin ingin hapus Transaksi_suplier?`)' class='btn btn-danger btn-icon'><i class='fa fa-trash'></i></a> <a href='" . site_url('master/Transaksi_suplier/editTransaksi_Suplier/' . $field->id) . "' class='btn btn-warning btn-icon'><i class='fa fa-pen'></i></a>";
+         $row[] = "<a href='" . site_url('master/transaksi_suplier/hapusTransaksi_suplier/' . $field->id) . "' onclick='return confirm(`Yakin ingin hapus Transaksi_suplier?`)' class='btn btn-danger btn-icon'><i class='fa fa-trash'></i></a>";
 
          $data[] = $row;
       }

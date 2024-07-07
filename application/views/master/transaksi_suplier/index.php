@@ -1,10 +1,10 @@
 <ol class="breadcrumb pull-right">
    <li class="breadcrumb-item"><a href="<?= base_url('') ?>">Dashboard</a></li>
-   <li class="breadcrumb-item"><a>Data Suplier</a></li>
+   <li class="breadcrumb-item"><a>Data Transaksi Suplier</a></li>
 </ol>
 
 <h1 class="page-header">
-   <a href="<?php echo base_url() ?>master/transaksi_suplier/tambahTransaksi_Suplier" class="btn btn-primary">Tambah Suplier</a>
+   <a href="<?php echo base_url() ?>master/transaksi_suplier/tambahTransaksi_Suplier" class="btn btn-primary">Tambah Transaksi Suplier</a>
 </h1>
 
 <?php if ($this->session->flashdata('msg')) { ?>
