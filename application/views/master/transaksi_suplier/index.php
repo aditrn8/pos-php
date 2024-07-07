@@ -21,7 +21,7 @@
    <div class="col-lg-12">
       <div class="panel panel-inverse">
          <div class="panel-heading">
-            <h4 class="panel-title">Data Suplier</h4>
+            <h4 class="panel-title">Data Transaksi Suplier</h4>
          </div>
          <div class="panel-body">
             <div class="table-responsive">
@@ -32,7 +32,7 @@
                         <th>Supplier</th>
                         <th>Id Transaksi</th>
                         <th>Nama Barang</th>
-                        <th>Harga Beli(Satuan)</th>
+                        <th>Harga Beli</th>
                         <th>QTY</th>
                         <th>Total</th>
                         <th>&nbsp;</th>
@@ -82,10 +82,10 @@
          "order": [],
 
          "ajax": {
-            "url": "<?php echo site_url('master/transaksi_suplier/getDataTransaksi_Suplier') ?>",
+            "url": "<?php echo site_url('master/transaksi_suplier/getDataTransaksiSuplier') ?>",
             "type": "POST",
             "data": function(data) {
-               console.log("sssssss", data)
+               // console.log("sssssss", data)
                // data.tgl = $('#tgl').val();
                // data.tgl2 = $('#tgl2').val();
             }

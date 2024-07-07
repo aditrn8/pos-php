@@ -74,7 +74,7 @@ class Transaksi_Suplier extends MY_Controller
 
       $new_id = $last_id ? intval($last_id) + 1 : 1; // Menentukan ID baru
 
-      return 'TS' . $dateString . $new_id; // Menggabungkan semua komponen menjadi satu ID
+      return 'TS' . $dateString; // Menggabungkan semua komponen menjadi satu ID
    }
 
    public function editTransaksi_Suplier($id)
@@ -85,7 +85,7 @@ class Transaksi_Suplier extends MY_Controller
       $this->validationTransaksi_Suplier();
       if ($this->form_validation->run() == FALSE) {
          $data = [
-            'title'        => 'Menu Edit Transaksi_Suplier',
+            'title'        => 'Menu Edit Transaksi Suplier',
             'id'           => $id,
             'rowTransaksi_Suplier'   => $this->sm->getData('Transaksi_supliers', ['id' => $id])->row()
          ];
@@ -141,7 +141,7 @@ class Transaksi_Suplier extends MY_Controller
    }
 
 
-   function getDataTransaksi_Suplier()
+   function getDataTransaksiSuplier()
    {
       if ($this->auth() == false) {
          redirect('');
@@ -149,6 +149,7 @@ class Transaksi_Suplier extends MY_Controller
       $list = $this->sm->dataTransaksiSuplier();
       $data = array();
       $no   = $_POST['start'];
+
       foreach ($list as $field) {
          $no++;
          $row = array();
@@ -159,7 +160,7 @@ class Transaksi_Suplier extends MY_Controller
          $row[] = $field->harga;
          $row[] = $field->qty;
          $row[] = $field->total;
-         $row[] = "<a href='" . site_url('master/Transaksi_suplier/hapusTransaksi_Suplier/' . $field->id) . "' onclick='return confirm(`Yakin ingin hapus Transaksi_suplier?`)' class='btn btn-danger btn-icon'><i class='fa fa-trash'></i></a> <a href='" . site_url('master/Transaksi_suplier/editTransaksi_Suplier/' . $field->id) . "' class='btn btn-warning btn-icon'><i class='fa fa-pen'></i></a>";
+         $row[] = "<a href='" . site_url('master/transaksi_suplier/hapusTransaksi_suplier/' . $field->id) . "' onclick='return confirm(`Yakin ingin hapus Transaksi_suplier?`)' class='btn btn-danger btn-icon'><i class='fa fa-trash'></i></a> <a href='" . site_url('master/Transaksi_suplier/editTransaksi_Suplier/' . $field->id) . "' class='btn btn-warning btn-icon'><i class='fa fa-pen'></i></a>";
 
          $data[] = $row;
       }

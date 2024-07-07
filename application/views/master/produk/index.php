@@ -83,6 +83,7 @@
                 "url": "<?php echo site_url('master/produk/getDataProduk/') ?>",
                 "type": "POST",
                 "data": function(data) {
+                    console.log("sssssssss", data)
                     // data.tgl = $('#tgl').val();
                     // data.tgl2 = $('#tgl2').val();
                 }
