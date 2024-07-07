@@ -44,11 +44,11 @@ class Transaksi_Suplier_model extends CI_Model
 
    public function querySuplierDtTb()
    {
-      $column_order = array(null, 'name', 'name_company', 'jenis_supplier', 'address', 'city', 'province');
-      $column_search = array('name', 'name_company', 'jenis_supplier', 'address', 'city', 'province');
+      $column_order = array(null, 'id_transaksi', 'n_suplier', 'n_barang', 'harga', 'qty', 'total', 'created_at', 'created_by');
+      $column_search = array('id_transaksi', 'n_suplier', 'n_barang', 'harga', 'qty', 'total', 'created_at', 'created_by');
       $order = array('id' => 'DESC');
 
-      $this->db->select('*')->from('supliers')->where('is_deleted', 0);
+      $this->db->select('*')->from('tr_supliers')->where('is_deleted', 0);
 
       $i = 0;
 
@@ -78,7 +78,22 @@ class Transaksi_Suplier_model extends CI_Model
       }
    }
 
-   function dataSuplier()
+   public function get_last_id()
+   {
+      $this->db->select('id');
+      $this->db->from('tr_supliers');
+      $this->db->order_by('id', 'DESC');
+      $this->db->limit(1);
+      $query = $this->db->get();
+
+      if ($query->num_rows() > 0) {
+         return $query->row()->id;
+      } else {
+         return 0;
+      }
+   }
+
+   function dataTransaksiSuplier()
    {
       $this->querySuplierDtTb();
       if ($_POST['length'] != -1)
@@ -87,7 +102,7 @@ class Transaksi_Suplier_model extends CI_Model
       return $query->result();
    }
 
-   function countDataSuplier()
+   function countTransaksiSuplier()
    {
       $this->querySuplierDtTb();
       $query = $this->db->get();

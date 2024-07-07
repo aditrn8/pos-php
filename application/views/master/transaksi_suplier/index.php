@@ -4,7 +4,7 @@
 </ol>
 
 <h1 class="page-header">
-   <a href="<?php echo base_url() ?>master/suplier/tambahSuplier" class="btn btn-primary">Tambah Suplier</a>
+   <a href="<?php echo base_url() ?>master/transaksi_suplier/tambahTransaksi_Suplier" class="btn btn-primary">Tambah Suplier</a>
 </h1>
 
 <?php if ($this->session->flashdata('msg')) { ?>
@@ -29,13 +29,12 @@
                   <thead>
                      <tr>
                         <th>No.</th>
-                        <th>Nama Perusahaan</th>
-                        <th>Nama Supplier</th>
-                        <th>Jenis Supplier</th>
-                        <th>No Hp</th>
-                        <th>Alamat</th>
-                        <!-- <th>Kota</th>
-                                <th>Provinsi</th> -->
+                        <th>Supplier</th>
+                        <th>Id Transaksi</th>
+                        <th>Nama Barang</th>
+                        <th>Harga Beli(Satuan)</th>
+                        <th>QTY</th>
+                        <th>Total</th>
                         <th>&nbsp;</th>
                      </tr>
                   </thead>
@@ -54,7 +53,7 @@
       table = $('#table').DataTable({
          initComplete: function() {
             var url;
-            url = "<?= site_url('master/suplier/') ?>";
+            url = "<?= site_url('master/transaksi_suplier/') ?>";
             var input = $('#table_filter input').unbind(),
                self = this.api(),
                searchButton = $('<span id="btnSearch" class="btn btn-primary btn-sm" style="pull-rigth"><i class="fa fa-search"></i></span>')
@@ -83,9 +82,10 @@
          "order": [],
 
          "ajax": {
-            "url": "<?php echo site_url('master/suplier/getDataSuplier') ?>",
+            "url": "<?php echo site_url('master/transaksi_suplier/getDataTransaksi_Suplier') ?>",
             "type": "POST",
             "data": function(data) {
+               console.log("sssssss", data)
                // data.tgl = $('#tgl').val();
                // data.tgl2 = $('#tgl2').val();
             }

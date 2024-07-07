@@ -32,42 +32,49 @@ class Transaksi_Suplier extends MY_Controller
          redirect('');
       }
       $this->validationTransaksi_Suplier();
+      $data_suplier = $this->sm->getDataAll('supliers')->result();
+      $data_product = $this->sm->getDataAll('product')->result();
       if ($this->form_validation->run() == FALSE) {
          $data = [
-            'title' => 'Menu Tambah Transaksi Suplier'
+            'title' => 'Menu Tambah Transaksi Suplier',
+            'suplier' => $data_suplier,
+            'product' => $data_product
          ];
 
          $this->template->load('template', 'master/Transaksi_suplier/add', $data);
       } else {
-         if ($this->duplicate_entry() == 0) {
-            $name           = trim(htmlspecialchars($this->input->post('name')));
-            $name_company   = trim(htmlspecialchars($this->input->post('name_company')));
-            $jenis_supplier   = trim(htmlspecialchars($this->input->post('jenis_supplier')));
-            $address        = trim(htmlspecialchars($this->input->post('address')));
-            $city           = trim(htmlspecialchars($this->input->post('city')));
-            $province       = trim(htmlspecialchars($this->input->post('province')));
-            $phone_number   = trim(htmlspecialchars($this->input->post('phone_number')));
+         $product_name           = trim(htmlspecialchars($this->input->post('product_name')));
+         $n_suplier   = trim(htmlspecialchars($this->input->post('n_suplier')));
+         $h_product        = trim(htmlspecialchars($this->input->post('h_product')));
+         $qty           = trim(htmlspecialchars($this->input->post('qty')));
+         $t_harga       = trim(htmlspecialchars($this->input->post('t_harga')));
 
-            $dataInsert = [
-               'name'          => $name,
-               'name_company'  => $name_company,
-               'jenis_supplier' => $jenis_supplier,
-               'address'       => $address,
-               'city'          => $city,
-               'province'      => $province,
-               'phone_number'  => $phone_number,
-               'created_by'    => $this->userId
-            ];
+         $dataInsert = [
+            'id_transaksi'  => $this->generate_id_transaksi(),
+            'n_barang'  => $product_name,
+            'n_suplier'    => $n_suplier,
+            'harga'    => $h_product,
+            'qty'          => $qty,
+            'total'      => $t_harga,
+            'created_by'    => $this->userId
+         ];
 
-            $this->sm->insert('Transaksi_supliers', $dataInsert);
+         $this->sm->insert('tr_supliers', $dataInsert);
 
-            $this->session->set_flashdata('msg', 'Berhasil menambahkan Transaksi_suplier!');
-            redirect('master/Transaksi_suplier');
-         } else {
-            $this->session->set_flashdata('msg', 'Nama Transaksi_suplier sudah terdaftar di sistem! Tidak boleh sama!');
-            redirect('master/Transaksi_suplier/tambahTransaksi_Suplier');
-         }
+         $this->session->set_flashdata('msg', 'Berhasil menambahkan Transaksi Suplier!');
+         redirect('master/Transaksi_suplier');
       }
+   }
+
+   private function generate_id_transaksi()
+   {
+      $now = new DateTime();
+      $dateString = $now->format('ymdHis'); // 240707180634
+      $last_id = $this->sm->get_last_id(); // Mendapatkan ID terakhir dari database
+
+      $new_id = $last_id ? intval($last_id) + 1 : 1; // Menentukan ID baru
+
+      return 'TS' . $dateString . $new_id; // Menggabungkan semua komponen menjadi satu ID
    }
 
    public function editTransaksi_Suplier($id)
@@ -87,21 +94,21 @@ class Transaksi_Suplier extends MY_Controller
       } else {
          if ($this->duplicate_entry() == 0) {
             $name     = trim(htmlspecialchars($this->input->post('name')));
-            $name_company   = trim(htmlspecialchars($this->input->post('name_company')));
-            $jenis_supplier   = trim(htmlspecialchars($this->input->post('jenis_supplier')));
-            $address  = trim(htmlspecialchars($this->input->post('address')));
+            $id_transaksi   = trim(htmlspecialchars($this->input->post('id_transaksi')));
+            $n_suplier   = trim(htmlspecialchars($this->input->post('n_suplier')));
+            $harga  = trim(htmlspecialchars($this->input->post('harga')));
             $city     = trim(htmlspecialchars($this->input->post('city')));
             $province = trim(htmlspecialchars($this->input->post('province')));
-            $phone_number = trim(htmlspecialchars($this->input->post('phone_number')));
+            $n_barang = trim(htmlspecialchars($this->input->post('n_barang')));
 
             $dataUpdate = [
                'name'          => $name,
-               'name_company'  => $name_company,
-               'jenis_supplier' => $jenis_supplier,
-               'address'       => $address,
+               'id_transaksi'  => $id_transaksi,
+               'n_suplier' => $n_suplier,
+               'harga'       => $harga,
                'city'          => $city,
                'province'      => $province,
-               'phone_number'      => $phone_number,
+               'n_barang'      => $n_barang,
                'updated_by'    => $this->userId,
                'updated_at'    => $this->dateNow
             ];
@@ -139,39 +146,51 @@ class Transaksi_Suplier extends MY_Controller
       if ($this->auth() == false) {
          redirect('');
       }
-      $list = $this->sm->dataTransaksi_Suplier();
+      $list = $this->sm->dataTransaksiSuplier();
       $data = array();
       $no   = $_POST['start'];
       foreach ($list as $field) {
          $no++;
          $row = array();
          $row[] = $no;
-         $row[] = $field->name_company;
-         $row[] = $field->name;
-         $row[] = $field->jenis_supplier;
-         $row[] = $field->phone_number;
-         $row[] = $field->address;
-         // $row[] = $field->city;
-         // $row[] = $field->province;
+         $row[] = $field->n_suplier;
+         $row[] = $field->id_transaksi;
+         $row[] = $field->n_barang;
+         $row[] = $field->harga;
+         $row[] = $field->qty;
+         $row[] = $field->total;
          $row[] = "<a href='" . site_url('master/Transaksi_suplier/hapusTransaksi_Suplier/' . $field->id) . "' onclick='return confirm(`Yakin ingin hapus Transaksi_suplier?`)' class='btn btn-danger btn-icon'><i class='fa fa-trash'></i></a> <a href='" . site_url('master/Transaksi_suplier/editTransaksi_Suplier/' . $field->id) . "' class='btn btn-warning btn-icon'><i class='fa fa-pen'></i></a>";
 
          $data[] = $row;
       }
       $output = array(
          "draw"         => $_POST['draw'],
-         "recordsTotal" => $this->sm->countDataTransaksi_Suplier(),
-         "recordsFiltered" => $this->sm->countDataTransaksi_Suplier(),
+         "recordsTotal" => $this->sm->countTransaksiSuplier(),
+         "recordsFiltered" => $this->sm->countTransaksiSuplier(),
          "data" => $data,
       );
       echo json_encode($output);
    }
+
+   public function getProductDetail()
+   {
+      $product_name = trim(htmlspecialchars($this->input->post('product_name')));
+      $product = $this->sm->getData('product', ['product_name' => $product_name])->row();
+
+      if ($product) {
+         echo json_encode(['status' => 'success', 'data' => $product]);
+      } else {
+         echo json_encode(['status' => 'error']);
+      }
+   }
+
 
    private function duplicate_entry()
    {
       $id             = $this->input->post('id');
       $nama           = trim(htmlspecialchars($this->input->post('name')));
       $where          = "(name = '$nama' AND is_deleted = 0 AND id != '$id')";
-      $query          = $this->sm->getData('Transaksi_supliers', $where);
+      $query          = $this->sm->getData('tr_supliers', $where);
 
       if ($query->num_rows() > 0) {
          return '1';
@@ -182,26 +201,8 @@ class Transaksi_Suplier extends MY_Controller
 
    private function validationTransaksi_Suplier()
    {
-      $this->form_validation->set_rules('name', 'Nama', 'trim|required', [
-         'required' => 'Nama wajib diisi!'
-      ]);
-      $this->form_validation->set_rules('name_company', 'Nama Perusahaan', 'trim|required', [
-         'required' => 'Nama Perusahaan wajib diisi!'
-      ]);
-      $this->form_validation->set_rules('jenis_supplier', 'Jenis Supplier', 'trim|required', [
-         'required' => 'Jenis Supplier wajib diisi!'
-      ]);
-      $this->form_validation->set_rules('address', 'Alamat', 'trim|required', [
-         'required' => 'Alamat wajib diisi!'
-      ]);
-      // $this->form_validation->set_rules('city', 'Kota', 'trim|required', [
-      //     'required' => 'Kota wajib diisi!'
-      // ]);
-      // $this->form_validation->set_rules('province', 'Provinsi', 'trim|required', [
-      //     'required' => 'Provinsi wajib diisi!'
-      // ]);
-      $this->form_validation->set_rules('phone_number', 'Nomor Telepon', 'trim|required', [
-         'required' => 'Nomor Telepon wajib diisi!'
+      $this->form_validation->set_rules('n_suplier', 'Nama Suplier', 'trim|required', [
+         'required' => 'Nama Suplier wajib diisi!'
       ]);
    }
 

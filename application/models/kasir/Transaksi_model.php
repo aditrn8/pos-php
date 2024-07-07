@@ -7,6 +7,7 @@ class Transaksi_model extends CI_Model
     {
         parent::__construct();
         date_default_timezone_set('Asia/Jakarta');
+        $this->load->database();
     }
 
     public function insert($table, $data)
