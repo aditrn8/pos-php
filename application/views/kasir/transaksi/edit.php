@@ -161,10 +161,10 @@ $no = 1;
                         <input type="file" name="buktiTf" id="buktiTf" class="form-control" onchange="validateFile(event)">
                         <div id="previewContainer" style="position: relative;">
                             <img id="preview" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGrwXwU3LiaAHTbVPr3EX679rdj3OKpePN40Tb4B9S4g&s" alt="Preview Image" style="max-width: 200px; max-height: 200px; margin-top: 10px;">
-                            <div id="zoomButtons" style="position: absolute; bottom: 10px; right: 10px;">
+                            <!-- <div id="zoomButtons" style="position: absolute; bottom: 10px; right: 10px;">
                                 <button onclick="zoomIn()">Zoom In</button>
                                 <button onclick="zoomOut()">Zoom Out</button>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
 

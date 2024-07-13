@@ -178,6 +178,9 @@ class Transaksi extends MY_Controller
         $paid = $this->input->post('Paid');
         $paidType = $this->input->post('paidType');
 
+        // Update stok produk
+        $this->updateProductStock($id);
+
         if ($paidType == "Transfer") {
             // Validasi file bukti transfer
             $config['upload_path']   = './upload/'; // Direktori untuk menyimpan file
@@ -227,6 +230,24 @@ class Transaksi extends MY_Controller
                 $this->session->set_flashdata('msg', 'Pemabayaran Berhasil!');
                 redirect('kasir/transaksi/');
             }
+        }
+    }
+
+    private function updateProductStock($id_transaksi)
+    {
+        // Ambil barang-barang yang terkait dengan transaksi
+        $barangTransaksi = $this->db->select('Nama_Barang, Jumlah_Barang')
+            ->from('tbl_penjualan')
+            ->where('ID_Transaksi', $id_transaksi)
+            ->get()
+            ->result();
+
+        // Kurangi stok barang di tabel produk
+        foreach ($barangTransaksi as $barang) {
+            // $productName_ = str_replace('%20', ' ', $barang->Nama_Barang);
+            $this->db->set('stock', 'stock - ' . (int) $barang->Jumlah_Barang, FALSE)
+                ->where('product_name', $barang->Nama_Barang)
+                ->update('product');
         }
     }
 
