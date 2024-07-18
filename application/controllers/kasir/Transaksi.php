@@ -192,9 +192,24 @@ class Transaksi extends MY_Controller
 
             if (!$this->upload->do_upload('buktiTf')) {
                 // Jika upload gagal
-                $error = $this->upload->display_errors();
-                $this->session->set_flashdata('msg', 'Upload bukti transfer gagal: ' . $error);
-                redirect('kasir/transaksi/inputBelanja/' . $id);
+                // $error = $this->upload->display_errors();
+                // $this->session->set_flashdata('msg', 'Upload bukti transfer gagal: ' . $error);
+                // redirect('kasir/transaksi/inputBelanja/' . $id);
+
+                $buktiTransfer = "no_image.jpg";
+
+                // Simpan data pembayaran
+                $dataUpdate = [
+                    'Bill' => $bill,
+                    'Paid' => $bill,
+                    'Bukti_Transfer' => $buktiTransfer, // Simpan nama file bukti transfer
+                    'Is_Paid' => 1,
+                    'Paid_Type' => $paidType
+                ];
+
+                $this->db->update('tbl_transaksi', $dataUpdate, ['ID_Transaksi' => $id]);
+                $this->session->set_flashdata('msg', 'Pembayaran berhasil!');
+                redirect('kasir/transaksi/');
             } else {
                 // Jika upload berhasil
                 $uploadData = $this->upload->data();
