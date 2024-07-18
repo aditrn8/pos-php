@@ -33,4 +33,12 @@
         <td colspan="4" align="right">Sub Total</td>
         <td>Rp. <?= number_format($q1->Bill, 0, '.', '.') ?></td>
     </tr>
+    <tr>
+        <td colspan="4" align="right">Bayar</td>
+        <td>Rp. <?= number_format($q1->Paid, 0, '.', '.') ?></td>
+    </tr>
+    <tr>
+        <td colspan="4" align="right">Kembalian</td>
+        <td>Rp. <?= number_format($q1->Paid - $q1->Bill, 0, '.', '.') ?></td>
+    </tr>
 </table>

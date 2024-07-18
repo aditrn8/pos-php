@@ -272,7 +272,7 @@ class Transaksi extends MY_Controller
             redirect('');
         }
 
-        $data['q1'] = $this->db->select('Nomor_Invoice,Bill')->from('tbl_transaksi')->where('ID_Transaksi', $id)->get()->row();
+        $data['q1'] = $this->db->select('*')->from('tbl_transaksi')->where('ID_Transaksi', $id)->get()->row();
         $data['q2'] = $this->db->get_where('tbl_penjualan', ['ID_Transaksi' => $id]);
         $this->load->view('kasir/transaksi/cetak', $data);
     }
