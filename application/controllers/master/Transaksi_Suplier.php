@@ -27,6 +27,15 @@ class Transaksi_Suplier extends MY_Controller
       $this->template->load('template', 'master/transaksi_suplier/index', $data);
    }
 
+   function cetakTransaksi($id)
+   {
+      if ($this->auth() == false) {
+         redirect('');
+      }
+      $data['q1'] = $this->db->get_where('tr_supliers', ['id' => $id])->row();
+      $this->load->view('master/transaksi_suplier/cetak', $data);
+   }
+
    public function tambahTransaksi_Suplier()
    {
       if ($this->auth() == false) {
@@ -171,7 +180,7 @@ class Transaksi_Suplier extends MY_Controller
          $row[] = $field->harga;
          $row[] = $field->qty;
          $row[] = $field->total;
-         $row[] = "<a href='" . site_url('master/transaksi_suplier/hapusTransaksi_suplier/' . $field->id) . "' onclick='return confirm(`Yakin ingin hapus Transaksi_suplier?`)' class='btn btn-danger btn-icon'><i class='fa fa-trash'></i></a>";
+         $row[] = "<a href='" . site_url('master/transaksi_suplier/hapusTransaksi_suplier/' . $field->id) . "' onclick='return confirm(`Yakin ingin hapus Transaksi_suplier?`)' class='btn btn-danger btn-icon'><i class='fa fa-trash'></i></a> <a href='" . site_url('master/transaksi_suplier/cetakTransaksi/' . $field->id) . "' class='btn btn-success btn-icon'><i class='fa fa-print'></i></a>";
 
          $data[] = $row;
       }
