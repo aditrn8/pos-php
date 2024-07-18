@@ -56,7 +56,7 @@
 
             <div class="form-group">
                <label for="">Harga : <code>*</code></label>
-               <input type="number" name="h_product" id="h_product" class="form-control" value="<?= set_value('h_product') ?>" autocomplete="off">
+               <input type="text" name="h_product" id="h_product" class="form-control" value="<?= set_value('h_product') ?>" autocomplete="off" readonly>
                <?= form_error('h_product', '<small class="text-danger">', '</small>') ?>
             </div>
 
@@ -68,25 +68,20 @@
 
             <div class="form-group">
                <label for="">Total : <code>*</code></label>
-               <input type="number" name="t_harga" id="t_harga" class="form-control" value="<?= set_value('t_harga') ?>" autocomplete="off" readonly>
+               <input type="text" name="t_harga" id="t_harga" class="form-control" value="<?= set_value('t_harga') ?>" autocomplete="off" readonly>
                <?= form_error('t_harga', '<small class="text-danger">', '</small>') ?>
             </div>
 
             <div class="form-group">
                <label for="">Bayar : <code>*</code></label>
-               <input type="number" name="bayar" id="bayar" class="form-control" value="<?= set_value('bayar') ?>" autocomplete="off" required>
+               <input type="number" name="bayar" id="bayar" class="form-control" value="<?= set_value('bayar') ?>" autocomplete="off">
                <?= form_error('bayar', '<small class="text-danger">', '</small>') ?>
-            </div>
-
-            <div class="form-group">
-               <label for="">Kembalian : <code>*</code></label>
-               <input type="text" name="kembalian" id="kembalian" class="form-control" value="<?= set_value('kembalian') ?>" autocomplete="off" readonly>
-               <?= form_error('kembalian', '<small class="text-danger">', '</small>') ?>
             </div>
 
             <!-- <input type="hidden" name="id_transaksi" id="id_transaksi"> -->
             <input type="hidden" name="created_at" value="<?= date('Y-m-d H:i:s') ?>">
-            <button type="submit" name="simpan" id="simpan" class="btn btn-primary">Simpan</button>
+
+            <button type="submit" class="btn btn-primary">Simpan</button>
             <a href="<?= site_url('master/transaksi_suplier') ?>" class="btn btn-danger"><i class="fa fa-arrow-left"></i> Kembali</a>
 
             <?= form_close() ?>
@@ -99,18 +94,37 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
    $(document).ready(function() {
-
-
+      $('#product_name').change(function() {
+         var product_name = $(this).val();
+         if (product_name != '') {
+            $.ajax({
+               url: "<?= site_url('master/transaksi_suplier/getProductDetail') ?>",
+               method: "POST",
+               data: {
+                  product_name: product_name
+               },
+               dataType: "json",
+               success: function(data) {
+                  if (data.status == 'success') {
+                     $('#h_product').val(data.data.price);
+                     calculateTotal();
+                  } else {
+                     $('#h_product').val('');
+                  }
+               },
+               error: function(jqXHR, textStatus, errorThrown) {
+                  console.log("error jqXHR : ", jqXHR)
+                  console.log("error textStatus : ", textStatus)
+                  console.log("error errorThrown : ", errorThrown)
+               }
+            });
+         } else {
+            $('#h_product').val('');
+         }
+      });
 
       $('#qty').on('input', function() {
          calculateTotal();
-      });
-      $('#h_product').on('input', function() {
-         calculateTotal();
-      });
-
-      $('#bayar').on('input', function() {
-         calculateKembalian();
       });
 
       function calculateTotal() {
@@ -122,31 +136,6 @@
          } else {
             $('#t_harga').val('');
          }
-         disableButton();
       }
-
-      function calculateKembalian() {
-         var bayar = parseFloat($('#bayar').val());
-         var total = parseFloat($('#t_harga').val());
-         if (!isNaN(bayar) && !isNaN(total)) {
-            var kembalian = bayar - total;
-            $('#kembalian').val(kembalian);
-         } else {
-            $('#kembalian').val('');
-         }
-         disableButton();
-      }
-
-      function disableButton() {
-         var kembalian = parseFloat($('#kembalian').val());
-         var bayar = $('#bayar').val();
-         if (kembalian < 0 || !bayar) {
-            $('#simpan').attr('disabled', true);
-         } else {
-            $('#simpan').attr('disabled', false);
-         }
-      }
-
-      disableButton();
    });
 </script>

@@ -49,6 +49,8 @@ class Transaksi_Suplier extends MY_Controller
          $h_product        = trim(htmlspecialchars($this->input->post('h_product')));
          $qty           = trim(htmlspecialchars($this->input->post('qty')));
          $t_harga       = trim(htmlspecialchars($this->input->post('t_harga')));
+         $bayar         = trim(htmlspecialchars($this->input->post('bayar')));
+         $kembalian     = trim(htmlspecialchars($this->input->post('kembalian')));
 
          $dataInsert = [
             'id_transaksi'  => $this->generate_id_transaksi(),
@@ -57,6 +59,8 @@ class Transaksi_Suplier extends MY_Controller
             'harga'    => $h_product,
             'qty'          => $qty,
             'total'      => $t_harga,
+            'bayar'      => $bayar,
+            'kembalian'    => $kembalian,
             'created_by'    => $this->userId
          ];
 
