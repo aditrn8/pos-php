@@ -1,11 +1,10 @@
 <title>Laporan Transaksi Supplier (<?= $q1->id_transaksi ?>)</title>
-<h1 align="center">Detail Transaksi Supplier (<?= $q1->id_transaksi ?>)</h1>
+<h2 align="center">Detail Transaksi Supplier (<?= $q1->id_transaksi ?>)</h2>
 
 <!-- <?= print_r($q1) ?> -->
-<h3 align="center">
-    Toko Satria Nugget
-    Jl Klambir V Ruko Janetti No 4, Medan
-</h3>
+<h3 align="center">Toko Satria Nugget</h3>
+<h4 align="center"> Jl Klambir V Ruko Janetti No 4, Medan</h4>
+<h4 align="center">No Telp/Wa. 082168852450</h4>
 
 <script>
     window.print();

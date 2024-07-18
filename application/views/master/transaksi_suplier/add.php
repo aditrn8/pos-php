@@ -86,7 +86,7 @@
 
             <!-- <input type="hidden" name="id_transaksi" id="id_transaksi"> -->
             <input type="hidden" name="created_at" value="<?= date('Y-m-d H:i:s') ?>">
-            <button type="submit" name="simpan" id="simpan" class="btn btn-primary">Simpan</button>
+            <button type="submit" name="simpan" id="simpan" class="btn btn-primary">Bayar</button>
             <a href="<?= site_url('master/transaksi_suplier') ?>" class="btn btn-danger"><i class="fa fa-arrow-left"></i> Kembali</a>
 
             <?= form_close() ?>
